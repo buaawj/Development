@@ -438,6 +438,7 @@ bool TaskMapping::checkConsistency(void) {
 	tm_app  *app;
 	tm_task *t;
 
+	// This is a test.
 	// Check if there were found apps
 	if (tm_apps.size() == 0) {
 		cout << "There were no found any applications in the task mapping file." << endl;
