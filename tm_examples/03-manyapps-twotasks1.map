@@ -24,16 +24,18 @@
 % map: start(q-1), stop(0), task_id(0), pe_id, task_id(1), pe_id, ..., task_id(n-1), pe_id
 % sim: scheduler_tick_cycles, scheduler_delay_cycles, map_before_starting_rootask_cycles, mappings_gap_cycles
  
-app:  1, 0
-task: 1, 20, 2, 2
-task: 2, 20, -1, 0
+app:  1, 500
+task: 1, 150, 2, 20
+task: 2, 200, -1, 0
 map:  1100, 3000, 1, 0, 2, 0
-map:  3100, 6000, 1, 0, 2, 1
+map:  3100, 5000, 1, 0, 2, 1
+map:  5100, 7000, 1, 0, 2, 15
 
-app:  2, 0
-task: 1, 20, 2, 2
-task: 2, 20, -1, 0
-map:  1200, 3100, 1, 0, 2, 0
-map:  3200, 6500, 1, 0, 2, 1
+app:  2, 500
+task: 1, 150, 2, 20
+task: 2, 200, -1, 0
+map:  1500, 3400, 1, 0, 2, 0
+map:  3500, 5400, 1, 0, 2, 1
+map:  5500, 7400, 1, 0, 2, 15
 
 sim: 100, 10, 10, 12

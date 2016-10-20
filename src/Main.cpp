@@ -69,7 +69,7 @@ int sc_main(int arg_num, char *arg_vet[])
     if (GlobalParams::traffic_distribution == TRAFFIC_TASKMAPPING) {
       tmInstance = new TaskMapping("TaskMapping");
       cout << "Loading task mapping configuration from file \"" << GlobalParams::taskmapping_filename << "\"" << endl;
-      if (!tmInstance->createTaskGraphFromFile(GlobalParams::taskmapping_filename.c_str())) {
+      if (!tmInstance->createTaskGraphsFromFile(GlobalParams::taskmapping_filename.c_str())) {
 	cout << "Failed to load the task mapping configuration." << endl;
 	exit(0);
 	TM_ASSERT(false, "Failed to load the task mapping configuration.");
@@ -78,8 +78,17 @@ int sc_main(int arg_num, char *arg_vet[])
 	cout << "  Task mapping configuration loaded correctly." << endl;
         
 	tmInstance->showTaskMappingConfiguration();
+#if defined(DEFINE_TM_SIMEXECLOG) || defined(DEFINE_TM_SIMSTATSLOG)
+        TM_SIMWRITELOG(endl
+                        << "********************************" << endl
+                        << "TaskMapping Simulation Execution" << endl
+                        << "********************************" << endl
+                        << endl);
+#endif    
       }
     }
+    else
+      tmInstance = NULL;
     // *************
     
     // Trace signals
@@ -113,19 +122,7 @@ int sc_main(int arg_num, char *arg_vet[])
 	    }
 	}
     }
-    
-    // *************
-    // Added by LGGM
-    // *************
-#if defined(DEFINE_TM_SIMEXECLOG) || defined(DEFINE_TM_SIMSTATSLOG)
-    TM_SIMWRITELOG(endl
-                    << "********************************" << endl
-                    << "TaskMapping Simulation Execution" << endl
-                    << "********************************" << endl
-                    << endl);
-#endif    
-    // *************
-    
+
     // Reset the chip and run the simulation
     cout << endl;
     reset.write(1);
@@ -146,30 +143,31 @@ int sc_main(int arg_num, char *arg_vet[])
     // *************
     // Added by LGGM
     // *************
-    tmInstance->showTaskMappingStatistics();
+    if (tmInstance)
+      tmInstance->showTaskMappingStatistics();
     // *************
     
     // ****************
     // Modified by LGGM
     // ****************
     // Show statistics
-    TM_SIMWRITELOG(endl    
-                    << "***************" << endl
-                    << "WNoC Statistics" << endl
-                    << "***************" << endl
-                    << endl);
+    if (tmInstance) {
+        TM_SIMWRITELOG(endl    
+                        << "***************" << endl
+                        << "WNoC Statistics" << endl
+                        << "***************" << endl
+                        << endl);
+    }
     GlobalStats gs(n);
-    if (tmInstance->taskmappinglog_file.is_open()) {
+    if (tmInstance && tmInstance->taskmappinglog_file.is_open()) {
       tmInstance->taskmappinglog_file.copyfmt(init_cout_format);
       gs.showStats(tmInstance->taskmappinglog_file, GlobalParams::detailed);
+      TM_SIMSTATSLOG(endl);
+      cout << "See the statistics in the file: " << GlobalParams::taskmappinglog_filename.c_str() << endl << endl;
     }
     else {
       cout.copyfmt(init_cout_format);
       gs.showStats(std::cout, GlobalParams::detailed);
-    }
-    TM_SIMSTATSLOG(endl);
-    if (tmInstance->taskmappinglog_file.is_open()) {
-      cout << "See the statistics in the file: " << GlobalParams::taskmappinglog_filename.c_str() << endl << endl;
     }
     // ****************
 

@@ -99,8 +99,10 @@ void ProcessingElement::peTxProcess() {
 
     if (peMapTaskExec->canShot(packet)) {
       if (packet.src_id == packet.dst_id) {
-	Flit flit_read = peMapTaskExec->bridgeTxRxSamePE(packet);
-	peMapTaskExec->processReceivedFlit(flit_read, true);
+        while (packet.flit_left) {
+          Flit flit_read_samepe = peMapTaskExec->tm_nextFlit_samepe(packet);
+          peMapTaskExec->processReceivedFlit(flit_read_samepe);
+        }
       }
       else
 	packet_queue.push(packet);

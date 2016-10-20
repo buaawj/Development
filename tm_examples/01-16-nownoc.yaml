@@ -75,7 +75,7 @@ max_volume_to_be_drained: 0
 show_buffer_stats: false
 
 # Winoc
-use_winoc: true
+use_winoc: false
 use_wirxsleep: false
 
 # Verbosity level:

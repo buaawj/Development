@@ -1,0 +1,1433 @@
+Task Mapping Simulation File created on: Mon Oct 10 23:22:22 2016
+
+************************
+TaskMapping File Reading
+************************
+
+App:   1, 0
+Task:  1, 50, 2, 5, 30, 3, 6
+Task:  2, 60, 4, 5
+Task:  3, 40, 4, 5
+Task:  4, 1, -1, 0
+MAP:   1100, 2000, 1, 0, 2, 0, 3, 0, 4, 0
+MAP:   2100, 3000, 1, 0, 2, 1, 3, 2, 4, 3
+MAP:   3100, 4000, 1, 0, 2, 15, 3, 12, 4, 8
+SIM:  100, 10, 10, 12
+
+**************************
+Task Mapping Configuration
+**************************
+
+app: 1, root_task: 1, min_restart: 0, leaf_task: 4
+  task: 1, pb0 ( et: 50, st: 2, pl: 5 ), pb1 ( et: 30, st: 3, pl: 6 )
+  task: 2, pb0 ( et: 60, st: 4, pl: 5 ), ant: 1
+  task: 3, pb0 ( et: 40, st: 4, pl: 5 ), ant: 1
+  task: 4, pb0 ( et: 1, st: -1, pl: 0 ), ant: 2, 3
+
+  mapping: 0, start: 1100, stop: 2000, task1(pe0), task2(pe0), task3(pe0), task4(pe0)
+  mapping: 1, start: 2100, stop: 3000, task1(pe0), task2(pe1), task3(pe2), task4(pe3)
+  mapping: 2, start: 3100, stop: 4000, task1(pe0), task2(pe15), task3(pe12), task4(pe8)
+
+pe: 0
+  start-stop: 1100-2000, app1,task1, app1,task2, app1,task3, app1,task4
+  start-stop: 2100-3000, app1,task1
+  start-stop: 3100-4000, app1,task1
+pe: 1
+  start-stop: 2100-3000, app1,task2
+pe: 2
+  start-stop: 2100-3000, app1,task3
+pe: 3
+  start-stop: 2100-3000, app1,task4
+pe: 8
+  start-stop: 3100-4000, app1,task4
+pe: 12
+  start-stop: 3100-4000, app1,task3
+pe: 15
+  start-stop: 3100-4000, app1,task2
+
+********************************
+TaskMapping Simulation Execution
+********************************
+
+(00) @001090 pe000,app01,tsk01 -> being mapped to pe0.
+(02) @001090 pe000,app01,tsk01 -> in sleeping state.
+(00) @001090 pe000,app01,tsk02 -> being mapped to pe0.
+(01) @001090 pe000,app01,tsk02 -> in waiting rx state.
+(00) @001090 pe000,app01,tsk03 -> being mapped to pe0.
+(01) @001090 pe000,app01,tsk03 -> in waiting rx state.
+(00) @001090 pe000,app01,tsk04 -> being mapped to pe0.
+(01) @001090 pe000,app01,tsk04 -> in waiting rx state.
+(03) @001100 pe000,app01,tsk01 -> in ready state.
+(05) @001100 pe000,app01,tsk01 -> in context switching state.
+(06) @001110 pe000,app01,tsk01 -> in running state.
+(09) @001110 pe000,app01,tsk01 -> starts its execution with pb0.
+(11) @001160 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @001160 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @001160 pe000,app01,tsk01 -> continues execution with pb1.
+(15) @001161 pe000,app01,tsk01 -> payload of pb0 being transferred to task in the same pe.
+(19) @001161 pe000,app01,tsk02 -> receives payload of pb0 (task1) from same PE.
+(08) @001161 pe000,app01,tsk02 -> receives all antecedent payloads.
+(03) @001161 pe000,app01,tsk02 -> in ready state.
+(30) @001161 app01,tsk01->tsk02,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(11) @001190 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @001190 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @001190 pe000,app01,tsk01 -> continues execution with pb0.
+(15) @001191 pe000,app01,tsk01 -> payload of pb1 being transferred to task in the same pe.
+(19) @001191 pe000,app01,tsk03 -> receives payload of pb1 (task1) from same PE.
+(08) @001191 pe000,app01,tsk03 -> receives all antecedent payloads.
+(03) @001191 pe000,app01,tsk03 -> in ready state.
+(30) @001191 app01,tsk01->tsk03,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(04) @001210 pe000,app01,tsk01 -> in ready state due to context switching.
+(05) @001210 pe000,app01,tsk02 -> in context switching state.
+(06) @001220 pe000,app01,tsk02 -> in running state.
+(09) @001220 pe000,app01,tsk02 -> starts its execution with pb0.
+(11) @001280 pe000,app01,tsk02 -> pb0 completes its processing.
+(13) @001280 pe000,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @001280 pe000,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @001280 pe000,app01,tsk02 -> in waiting rx state.
+(05) @001280 pe000,app01,tsk03 -> in context switching state.
+(15) @001281 pe000,app01,tsk02 -> payload of pb0 being transferred to task in the same pe.
+(19) @001281 pe000,app01,tsk04 -> receives payload of pb0 (task2) from same PE.
+(30) @001281 app01,tsk02->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001290 pe000,app01,tsk03 -> in running state.
+(09) @001290 pe000,app01,tsk03 -> starts its execution with pb0.
+(11) @001330 pe000,app01,tsk03 -> pb0 completes its processing.
+(13) @001330 pe000,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @001330 pe000,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @001330 pe000,app01,tsk03 -> in waiting rx state.
+(05) @001330 pe000,app01,tsk01 -> in context switching state.
+(15) @001331 pe000,app01,tsk03 -> payload of pb0 being transferred to task in the same pe.
+(19) @001331 pe000,app01,tsk04 -> receives payload of pb0 (task3) from same PE.
+(08) @001331 pe000,app01,tsk04 -> receives all antecedent payloads.
+(03) @001331 pe000,app01,tsk04 -> in ready state.
+(30) @001331 app01,tsk03->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001340 pe000,app01,tsk01 -> in running state.
+(10) @001340 pe000,app01,tsk01 -> continues its execution with pb0.
+(11) @001370 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @001370 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @001370 pe000,app01,tsk01 -> continues execution with pb1.
+(15) @001371 pe000,app01,tsk01 -> payload of pb0 being transferred to task in the same pe.
+(19) @001371 pe000,app01,tsk02 -> receives payload of pb0 (task1) from same PE.
+(08) @001371 pe000,app01,tsk02 -> receives all antecedent payloads.
+(03) @001371 pe000,app01,tsk02 -> in ready state.
+(30) @001371 app01,tsk01->tsk02,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(11) @001400 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @001400 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @001400 pe000,app01,tsk01 -> continues execution with pb0.
+(15) @001401 pe000,app01,tsk01 -> payload of pb1 being transferred to task in the same pe.
+(19) @001401 pe000,app01,tsk03 -> receives payload of pb1 (task1) from same PE.
+(08) @001401 pe000,app01,tsk03 -> receives all antecedent payloads.
+(03) @001401 pe000,app01,tsk03 -> in ready state.
+(30) @001401 app01,tsk01->tsk03,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(04) @001440 pe000,app01,tsk01 -> in ready state due to context switching.
+(05) @001440 pe000,app01,tsk04 -> in context switching state.
+(06) @001450 pe000,app01,tsk04 -> in running state.
+(09) @001450 pe000,app01,tsk04 -> starts its execution with pb0.
+(11) @001451 pe000,app01,tsk04 -> pb0 completes its processing.
+(31) @001451 app01,exectime -> acum_execs=1,last=341,min=341,max=341,avg=341
+(32) @001451 app01,latency -> min=0,max=0,avg=0
+(12) @001451 pe000,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @001451 pe000,app01,tsk04 -> in waiting rx state.
+(05) @001451 pe000,app01,tsk02 -> in context switching state.
+(06) @001461 pe000,app01,tsk02 -> in running state.
+(09) @001461 pe000,app01,tsk02 -> starts its execution with pb0.
+(11) @001521 pe000,app01,tsk02 -> pb0 completes its processing.
+(13) @001521 pe000,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @001521 pe000,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @001521 pe000,app01,tsk02 -> in waiting rx state.
+(05) @001521 pe000,app01,tsk03 -> in context switching state.
+(15) @001522 pe000,app01,tsk02 -> payload of pb0 being transferred to task in the same pe.
+(19) @001522 pe000,app01,tsk04 -> receives payload of pb0 (task2) from same PE.
+(30) @001522 app01,tsk02->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001531 pe000,app01,tsk03 -> in running state.
+(09) @001531 pe000,app01,tsk03 -> starts its execution with pb0.
+(11) @001571 pe000,app01,tsk03 -> pb0 completes its processing.
+(13) @001571 pe000,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @001571 pe000,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @001571 pe000,app01,tsk03 -> in waiting rx state.
+(05) @001571 pe000,app01,tsk01 -> in context switching state.
+(15) @001572 pe000,app01,tsk03 -> payload of pb0 being transferred to task in the same pe.
+(19) @001572 pe000,app01,tsk04 -> receives payload of pb0 (task3) from same PE.
+(08) @001572 pe000,app01,tsk04 -> receives all antecedent payloads.
+(03) @001572 pe000,app01,tsk04 -> in ready state.
+(30) @001572 app01,tsk03->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001581 pe000,app01,tsk01 -> in running state.
+(10) @001581 pe000,app01,tsk01 -> continues its execution with pb0.
+(11) @001591 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @001591 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @001591 pe000,app01,tsk01 -> continues execution with pb1.
+(15) @001592 pe000,app01,tsk01 -> payload of pb0 being transferred to task in the same pe.
+(19) @001592 pe000,app01,tsk02 -> receives payload of pb0 (task1) from same PE.
+(08) @001592 pe000,app01,tsk02 -> receives all antecedent payloads.
+(03) @001592 pe000,app01,tsk02 -> in ready state.
+(30) @001592 app01,tsk01->tsk02,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(11) @001621 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @001621 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @001621 pe000,app01,tsk01 -> continues execution with pb0.
+(15) @001622 pe000,app01,tsk01 -> payload of pb1 being transferred to task in the same pe.
+(19) @001622 pe000,app01,tsk03 -> receives payload of pb1 (task1) from same PE.
+(08) @001622 pe000,app01,tsk03 -> receives all antecedent payloads.
+(03) @001622 pe000,app01,tsk03 -> in ready state.
+(30) @001622 app01,tsk01->tsk03,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(11) @001671 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @001671 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @001671 pe000,app01,tsk01 -> continues execution with pb1.
+(15) @001672 pe000,app01,tsk01 -> payload of pb0 being transferred to task in the same pe.
+(19) @001672 pe000,app01,tsk02 -> receives payload of pb0 (task1) from same PE.
+(30) @001672 app01,tsk01->tsk02,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(04) @001681 pe000,app01,tsk01 -> in ready state due to context switching.
+(05) @001681 pe000,app01,tsk04 -> in context switching state.
+(06) @001691 pe000,app01,tsk04 -> in running state.
+(09) @001691 pe000,app01,tsk04 -> starts its execution with pb0.
+(11) @001692 pe000,app01,tsk04 -> pb0 completes its processing.
+(31) @001692 app01,exectime -> acum_execs=2,last=502,min=341,max=502,avg=421
+(32) @001692 app01,latency -> min=0,max=0,avg=0
+(12) @001692 pe000,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @001692 pe000,app01,tsk04 -> in waiting rx state.
+(05) @001692 pe000,app01,tsk02 -> in context switching state.
+(06) @001702 pe000,app01,tsk02 -> in running state.
+(09) @001702 pe000,app01,tsk02 -> starts its execution with pb0.
+(11) @001762 pe000,app01,tsk02 -> pb0 completes its processing.
+(13) @001762 pe000,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @001762 pe000,app01,tsk02 -> completes its pbs and releases the pe.
+(08) @001762 pe000,app01,tsk02 -> receives all antecedent payloads.
+(03) @001762 pe000,app01,tsk02 -> in ready state.
+(05) @001762 pe000,app01,tsk03 -> in context switching state.
+(15) @001763 pe000,app01,tsk02 -> payload of pb0 being transferred to task in the same pe.
+(19) @001763 pe000,app01,tsk04 -> receives payload of pb0 (task2) from same PE.
+(30) @001763 app01,tsk02->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001772 pe000,app01,tsk03 -> in running state.
+(09) @001772 pe000,app01,tsk03 -> starts its execution with pb0.
+(11) @001812 pe000,app01,tsk03 -> pb0 completes its processing.
+(13) @001812 pe000,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @001812 pe000,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @001812 pe000,app01,tsk03 -> in waiting rx state.
+(05) @001812 pe000,app01,tsk01 -> in context switching state.
+(15) @001813 pe000,app01,tsk03 -> payload of pb0 being transferred to task in the same pe.
+(19) @001813 pe000,app01,tsk04 -> receives payload of pb0 (task3) from same PE.
+(08) @001813 pe000,app01,tsk04 -> receives all antecedent payloads.
+(03) @001813 pe000,app01,tsk04 -> in ready state.
+(30) @001813 app01,tsk03->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(06) @001822 pe000,app01,tsk01 -> in running state.
+(10) @001822 pe000,app01,tsk01 -> continues its execution with pb1.
+(11) @001842 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @001842 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @001842 pe000,app01,tsk01 -> continues execution with pb0.
+(15) @001843 pe000,app01,tsk01 -> payload of pb1 being transferred to task in the same pe.
+(19) @001843 pe000,app01,tsk03 -> receives payload of pb1 (task1) from same PE.
+(08) @001843 pe000,app01,tsk03 -> receives all antecedent payloads.
+(03) @001843 pe000,app01,tsk03 -> in ready state.
+(30) @001843 app01,tsk01->tsk03,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(11) @001892 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @001892 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @001892 pe000,app01,tsk01 -> continues execution with pb1.
+(15) @001893 pe000,app01,tsk01 -> payload of pb0 being transferred to task in the same pe.
+(19) @001893 pe000,app01,tsk02 -> receives payload of pb0 (task1) from same PE.
+(30) @001893 app01,tsk01->tsk02,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(04) @001922 pe000,app01,tsk01 -> in ready state due to context switching.
+(05) @001922 pe000,app01,tsk02 -> in context switching state.
+(06) @001932 pe000,app01,tsk02 -> in running state.
+(09) @001932 pe000,app01,tsk02 -> starts its execution with pb0.
+(11) @001992 pe000,app01,tsk02 -> pb0 completes its processing.
+(13) @001992 pe000,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @001992 pe000,app01,tsk02 -> completes its pbs and releases the pe.
+(08) @001992 pe000,app01,tsk02 -> receives all antecedent payloads.
+(03) @001992 pe000,app01,tsk02 -> in ready state.
+(05) @001992 pe000,app01,tsk04 -> in context switching state.
+(15) @001993 pe000,app01,tsk02 -> payload of pb0 being transferred to task in the same pe.
+(19) @001993 pe000,app01,tsk04 -> receives payload of pb0 (task2) from same PE.
+(30) @001993 app01,tsk02->tsk04,latency -> acum_flits=0,last=0,min=0,max=0,avg=0
+(07) @002000 pe000,app01,tsk03 -> stops and is unmapped at @2000 (root stopped at @2000).
+(07) @002000 pe000,app01,tsk01 -> stops and is unmapped at @2000 (expected at @2000).
+(07) @002000 pe000,app01,tsk02 -> stops and is unmapped at @2000 (root stopped at @2000).
+(07) @002000 pe000,app01,tsk04 -> stops and is unmapped at @2000 (root stopped at @2000).
+(33) @002000 pe000,acum_cycles_performed -> contextswitching=138,taskexecution=762,pe_idle=10
+(00) @002090 pe000,app01,tsk01 -> being mapped to pe0.
+(02) @002090 pe000,app01,tsk01 -> in sleeping state.
+(00) @002090 pe001,app01,tsk02 -> being mapped to pe1.
+(01) @002090 pe001,app01,tsk02 -> in waiting rx state.
+(00) @002090 pe002,app01,tsk03 -> being mapped to pe2.
+(01) @002090 pe002,app01,tsk03 -> in waiting rx state.
+(00) @002090 pe003,app01,tsk04 -> being mapped to pe3.
+(01) @002090 pe003,app01,tsk04 -> in waiting rx state.
+(03) @002100 pe000,app01,tsk01 -> in ready state.
+(05) @002100 pe000,app01,tsk01 -> in context switching state.
+(06) @002110 pe000,app01,tsk01 -> in running state.
+(09) @002110 pe000,app01,tsk01 -> starts its execution with pb0.
+(11) @002160 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002160 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002160 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002161 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @002169 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(20) @002174 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002174 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002174 pe001,app01,tsk02 -> in ready state.
+(05) @002174 pe001,app01,tsk02 -> in context switching state.
+(30) @002174 app01,tsk01->tsk02,latency -> acum_flits=5,last=5,min=5,max=5,avg=5
+(06) @002184 pe001,app01,tsk02 -> in running state.
+(09) @002184 pe001,app01,tsk02 -> starts its execution with pb0.
+(11) @002190 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002190 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002190 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002191 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(18) @002201 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @002208 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002208 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002208 pe002,app01,tsk03 -> in ready state.
+(05) @002208 pe002,app01,tsk03 -> in context switching state.
+(30) @002208 app01,tsk01->tsk03,latency -> acum_flits=6,last=7,min=7,max=7,avg=7
+(06) @002218 pe002,app01,tsk03 -> in running state.
+(09) @002218 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002240 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002240 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002240 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002241 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002244 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002244 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002244 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002244 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002245 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002249 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002253 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002254 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002254 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002254 pe001,app01,tsk02 -> in ready state.
+(05) @002254 pe001,app01,tsk02 -> in context switching state.
+(30) @002254 app01,tsk01->tsk02,latency -> acum_flits=10,last=5,min=5,max=5,avg=5
+(11) @002258 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002258 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002258 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002258 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002259 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002260 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002260 app01,tsk02->tsk04,latency -> acum_flits=5,last=7,min=7,max=7,avg=7
+(06) @002264 pe001,app01,tsk02 -> in running state.
+(09) @002264 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002267 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002270 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002270 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002270 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002271 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002272 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002272 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002272 pe003,app01,tsk04 -> in ready state.
+(05) @002272 pe003,app01,tsk04 -> in context switching state.
+(30) @002272 app01,tsk03->tsk04,latency -> acum_flits=5,last=5,min=5,max=5,avg=5
+(18) @002281 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002282 pe003,app01,tsk04 -> in running state.
+(09) @002282 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002283 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002283 app01,exectime -> acum_execs=1,last=173,min=173,max=173,avg=173
+(32) @002283 app01,latency -> min=12,max=12,avg=12
+(12) @002283 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002283 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002288 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002288 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002288 pe002,app01,tsk03 -> in ready state.
+(05) @002288 pe002,app01,tsk03 -> in context switching state.
+(30) @002288 app01,tsk01->tsk03,latency -> acum_flits=12,last=7,min=7,max=7,avg=7
+(06) @002298 pe002,app01,tsk03 -> in running state.
+(09) @002298 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002320 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002320 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002320 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002321 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002324 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002324 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002324 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002324 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002325 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002329 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002333 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002334 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002334 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002334 pe001,app01,tsk02 -> in ready state.
+(05) @002334 pe001,app01,tsk02 -> in context switching state.
+(30) @002334 app01,tsk01->tsk02,latency -> acum_flits=15,last=5,min=5,max=5,avg=5
+(11) @002338 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002338 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002338 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002338 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002339 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002340 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002340 app01,tsk02->tsk04,latency -> acum_flits=10,last=7,min=7,max=7,avg=7
+(06) @002344 pe001,app01,tsk02 -> in running state.
+(09) @002344 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002347 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002350 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002350 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002350 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002351 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002352 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002352 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002352 pe003,app01,tsk04 -> in ready state.
+(05) @002352 pe003,app01,tsk04 -> in context switching state.
+(30) @002352 app01,tsk03->tsk04,latency -> acum_flits=10,last=5,min=5,max=5,avg=5
+(18) @002361 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002362 pe003,app01,tsk04 -> in running state.
+(09) @002362 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002363 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002363 app01,exectime -> acum_execs=2,last=173,min=173,max=173,avg=173
+(32) @002363 app01,latency -> min=12,max=12,avg=12
+(12) @002363 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002363 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002368 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002368 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002368 pe002,app01,tsk03 -> in ready state.
+(05) @002368 pe002,app01,tsk03 -> in context switching state.
+(30) @002368 app01,tsk01->tsk03,latency -> acum_flits=18,last=7,min=7,max=7,avg=7
+(06) @002378 pe002,app01,tsk03 -> in running state.
+(09) @002378 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002400 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002400 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002400 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002401 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002404 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002404 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002404 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002404 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002405 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002409 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002413 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002414 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002414 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002414 pe001,app01,tsk02 -> in ready state.
+(05) @002414 pe001,app01,tsk02 -> in context switching state.
+(30) @002414 app01,tsk01->tsk02,latency -> acum_flits=20,last=5,min=5,max=5,avg=5
+(11) @002418 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002418 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002418 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002418 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002419 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002420 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002420 app01,tsk02->tsk04,latency -> acum_flits=15,last=7,min=7,max=7,avg=7
+(06) @002424 pe001,app01,tsk02 -> in running state.
+(09) @002424 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002427 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002430 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002430 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002430 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002431 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002432 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002432 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002432 pe003,app01,tsk04 -> in ready state.
+(05) @002432 pe003,app01,tsk04 -> in context switching state.
+(30) @002432 app01,tsk03->tsk04,latency -> acum_flits=15,last=5,min=5,max=5,avg=5
+(18) @002441 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002442 pe003,app01,tsk04 -> in running state.
+(09) @002442 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002443 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002443 app01,exectime -> acum_execs=3,last=173,min=173,max=173,avg=173
+(32) @002443 app01,latency -> min=12,max=12,avg=12
+(12) @002443 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002443 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002448 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002448 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002448 pe002,app01,tsk03 -> in ready state.
+(05) @002448 pe002,app01,tsk03 -> in context switching state.
+(30) @002448 app01,tsk01->tsk03,latency -> acum_flits=24,last=7,min=7,max=7,avg=7
+(06) @002458 pe002,app01,tsk03 -> in running state.
+(09) @002458 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002480 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002480 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002480 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002481 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002484 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002484 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002484 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002484 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002485 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002489 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002493 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002494 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002494 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002494 pe001,app01,tsk02 -> in ready state.
+(05) @002494 pe001,app01,tsk02 -> in context switching state.
+(30) @002494 app01,tsk01->tsk02,latency -> acum_flits=25,last=5,min=5,max=5,avg=5
+(11) @002498 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002498 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002498 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002498 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002499 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002500 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002500 app01,tsk02->tsk04,latency -> acum_flits=20,last=7,min=7,max=7,avg=7
+(06) @002504 pe001,app01,tsk02 -> in running state.
+(09) @002504 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002507 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002510 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002510 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002510 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002511 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002512 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002512 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002512 pe003,app01,tsk04 -> in ready state.
+(05) @002512 pe003,app01,tsk04 -> in context switching state.
+(30) @002512 app01,tsk03->tsk04,latency -> acum_flits=20,last=5,min=5,max=5,avg=5
+(18) @002521 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002522 pe003,app01,tsk04 -> in running state.
+(09) @002522 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002523 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002523 app01,exectime -> acum_execs=4,last=173,min=173,max=173,avg=173
+(32) @002523 app01,latency -> min=12,max=12,avg=12
+(12) @002523 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002523 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002528 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002528 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002528 pe002,app01,tsk03 -> in ready state.
+(05) @002528 pe002,app01,tsk03 -> in context switching state.
+(30) @002528 app01,tsk01->tsk03,latency -> acum_flits=30,last=7,min=7,max=7,avg=7
+(06) @002538 pe002,app01,tsk03 -> in running state.
+(09) @002538 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002560 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002560 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002560 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002561 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002564 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002564 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002564 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002564 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002565 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002569 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002573 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002574 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002574 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002574 pe001,app01,tsk02 -> in ready state.
+(05) @002574 pe001,app01,tsk02 -> in context switching state.
+(30) @002574 app01,tsk01->tsk02,latency -> acum_flits=30,last=5,min=5,max=5,avg=5
+(11) @002578 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002578 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002578 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002578 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002579 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002580 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002580 app01,tsk02->tsk04,latency -> acum_flits=25,last=7,min=7,max=7,avg=7
+(06) @002584 pe001,app01,tsk02 -> in running state.
+(09) @002584 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002587 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002590 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002590 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002590 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002591 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002592 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002592 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002592 pe003,app01,tsk04 -> in ready state.
+(05) @002592 pe003,app01,tsk04 -> in context switching state.
+(30) @002592 app01,tsk03->tsk04,latency -> acum_flits=25,last=5,min=5,max=5,avg=5
+(18) @002601 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002602 pe003,app01,tsk04 -> in running state.
+(09) @002602 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002603 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002603 app01,exectime -> acum_execs=5,last=173,min=173,max=173,avg=173
+(32) @002603 app01,latency -> min=12,max=12,avg=12
+(12) @002603 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002603 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002608 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002608 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002608 pe002,app01,tsk03 -> in ready state.
+(05) @002608 pe002,app01,tsk03 -> in context switching state.
+(30) @002608 app01,tsk01->tsk03,latency -> acum_flits=36,last=7,min=7,max=7,avg=7
+(06) @002618 pe002,app01,tsk03 -> in running state.
+(09) @002618 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002640 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002640 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002640 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002641 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002644 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002644 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002644 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002644 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002645 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002649 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002653 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002654 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002654 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002654 pe001,app01,tsk02 -> in ready state.
+(05) @002654 pe001,app01,tsk02 -> in context switching state.
+(30) @002654 app01,tsk01->tsk02,latency -> acum_flits=35,last=5,min=5,max=5,avg=5
+(11) @002658 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002658 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002658 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002658 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002659 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002660 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002660 app01,tsk02->tsk04,latency -> acum_flits=30,last=7,min=7,max=7,avg=7
+(06) @002664 pe001,app01,tsk02 -> in running state.
+(09) @002664 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002667 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002670 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002670 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002670 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002671 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002672 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002672 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002672 pe003,app01,tsk04 -> in ready state.
+(05) @002672 pe003,app01,tsk04 -> in context switching state.
+(30) @002672 app01,tsk03->tsk04,latency -> acum_flits=30,last=5,min=5,max=5,avg=5
+(18) @002681 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002682 pe003,app01,tsk04 -> in running state.
+(09) @002682 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002683 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002683 app01,exectime -> acum_execs=6,last=173,min=173,max=173,avg=173
+(32) @002683 app01,latency -> min=12,max=12,avg=12
+(12) @002683 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002683 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002688 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002688 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002688 pe002,app01,tsk03 -> in ready state.
+(05) @002688 pe002,app01,tsk03 -> in context switching state.
+(30) @002688 app01,tsk01->tsk03,latency -> acum_flits=42,last=7,min=7,max=7,avg=7
+(06) @002698 pe002,app01,tsk03 -> in running state.
+(09) @002698 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002720 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002720 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002720 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002721 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002724 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002724 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002724 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002724 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002725 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002729 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002733 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002734 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002734 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002734 pe001,app01,tsk02 -> in ready state.
+(05) @002734 pe001,app01,tsk02 -> in context switching state.
+(30) @002734 app01,tsk01->tsk02,latency -> acum_flits=40,last=5,min=5,max=5,avg=5
+(11) @002738 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002738 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002738 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002738 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002739 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002740 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002740 app01,tsk02->tsk04,latency -> acum_flits=35,last=7,min=7,max=7,avg=7
+(06) @002744 pe001,app01,tsk02 -> in running state.
+(09) @002744 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002747 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002750 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002750 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002750 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002751 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002752 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002752 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002752 pe003,app01,tsk04 -> in ready state.
+(05) @002752 pe003,app01,tsk04 -> in context switching state.
+(30) @002752 app01,tsk03->tsk04,latency -> acum_flits=35,last=5,min=5,max=5,avg=5
+(18) @002761 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002762 pe003,app01,tsk04 -> in running state.
+(09) @002762 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002763 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002763 app01,exectime -> acum_execs=7,last=173,min=173,max=173,avg=173
+(32) @002763 app01,latency -> min=12,max=12,avg=12
+(12) @002763 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002763 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002768 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002768 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002768 pe002,app01,tsk03 -> in ready state.
+(05) @002768 pe002,app01,tsk03 -> in context switching state.
+(30) @002768 app01,tsk01->tsk03,latency -> acum_flits=48,last=7,min=7,max=7,avg=7
+(06) @002778 pe002,app01,tsk03 -> in running state.
+(09) @002778 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002800 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002800 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002800 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002801 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002804 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002804 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002804 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002804 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002805 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002809 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002813 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002814 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002814 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002814 pe001,app01,tsk02 -> in ready state.
+(05) @002814 pe001,app01,tsk02 -> in context switching state.
+(30) @002814 app01,tsk01->tsk02,latency -> acum_flits=45,last=5,min=5,max=5,avg=5
+(11) @002818 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002818 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002818 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002818 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002819 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002820 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002820 app01,tsk02->tsk04,latency -> acum_flits=40,last=7,min=7,max=7,avg=7
+(06) @002824 pe001,app01,tsk02 -> in running state.
+(09) @002824 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002827 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002830 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002830 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002830 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002831 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002832 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002832 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002832 pe003,app01,tsk04 -> in ready state.
+(05) @002832 pe003,app01,tsk04 -> in context switching state.
+(30) @002832 app01,tsk03->tsk04,latency -> acum_flits=40,last=5,min=5,max=5,avg=5
+(18) @002841 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002842 pe003,app01,tsk04 -> in running state.
+(09) @002842 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002843 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002843 app01,exectime -> acum_execs=8,last=173,min=173,max=173,avg=173
+(32) @002843 app01,latency -> min=12,max=12,avg=12
+(12) @002843 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002843 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002848 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002848 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002848 pe002,app01,tsk03 -> in ready state.
+(05) @002848 pe002,app01,tsk03 -> in context switching state.
+(30) @002848 app01,tsk01->tsk03,latency -> acum_flits=54,last=7,min=7,max=7,avg=7
+(06) @002858 pe002,app01,tsk03 -> in running state.
+(09) @002858 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002880 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002880 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002880 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002881 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002884 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002884 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002884 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002884 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002885 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002889 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002893 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002894 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002894 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002894 pe001,app01,tsk02 -> in ready state.
+(05) @002894 pe001,app01,tsk02 -> in context switching state.
+(30) @002894 app01,tsk01->tsk02,latency -> acum_flits=50,last=5,min=5,max=5,avg=5
+(11) @002898 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002898 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002898 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002898 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002899 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002900 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002900 app01,tsk02->tsk04,latency -> acum_flits=45,last=7,min=7,max=7,avg=7
+(06) @002904 pe001,app01,tsk02 -> in running state.
+(09) @002904 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002907 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002910 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002910 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002910 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002911 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002912 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002912 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002912 pe003,app01,tsk04 -> in ready state.
+(05) @002912 pe003,app01,tsk04 -> in context switching state.
+(30) @002912 app01,tsk03->tsk04,latency -> acum_flits=45,last=5,min=5,max=5,avg=5
+(18) @002921 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(06) @002922 pe003,app01,tsk04 -> in running state.
+(09) @002922 pe003,app01,tsk04 -> starts its execution with pb0.
+(11) @002923 pe003,app01,tsk04 -> pb0 completes its processing.
+(31) @002923 app01,exectime -> acum_execs=9,last=173,min=173,max=173,avg=173
+(32) @002923 app01,latency -> min=12,max=12,avg=12
+(12) @002923 pe003,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @002923 pe003,app01,tsk04 -> in waiting rx state.
+(20) @002928 pe002,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @002928 pe002,app01,tsk03 -> receives all antecedent payloads.
+(03) @002928 pe002,app01,tsk03 -> in ready state.
+(05) @002928 pe002,app01,tsk03 -> in context switching state.
+(30) @002928 app01,tsk01->tsk03,latency -> acum_flits=60,last=7,min=7,max=7,avg=7
+(06) @002938 pe002,app01,tsk03 -> in running state.
+(09) @002938 pe002,app01,tsk03 -> starts its execution with pb0.
+(11) @002960 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @002960 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @002960 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @002961 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(11) @002964 pe001,app01,tsk02 -> pb0 completes its processing.
+(13) @002964 pe001,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @002964 pe001,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @002964 pe001,app01,tsk02 -> in waiting rx state.
+(16) @002965 pe001,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(18) @002969 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(18) @002973 pe001,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @002974 pe001,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @002974 pe001,app01,tsk02 -> receives all antecedent payloads.
+(03) @002974 pe001,app01,tsk02 -> in ready state.
+(05) @002974 pe001,app01,tsk02 -> in context switching state.
+(30) @002974 app01,tsk01->tsk02,latency -> acum_flits=55,last=5,min=5,max=5,avg=5
+(11) @002978 pe002,app01,tsk03 -> pb0 completes its processing.
+(13) @002978 pe002,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @002978 pe002,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @002978 pe002,app01,tsk03 -> in waiting rx state.
+(16) @002979 pe002,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(20) @002980 pe003,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @002980 app01,tsk02->tsk04,latency -> acum_flits=50,last=7,min=7,max=7,avg=7
+(06) @002984 pe001,app01,tsk02 -> in running state.
+(09) @002984 pe001,app01,tsk02 -> starts its execution with pb0.
+(18) @002987 pe002,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @002990 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @002990 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @002990 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @002991 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @002992 pe003,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @002992 pe003,app01,tsk04 -> receives all antecedent payloads.
+(03) @002992 pe003,app01,tsk04 -> in ready state.
+(05) @002992 pe003,app01,tsk04 -> in context switching state.
+(30) @002992 app01,tsk03->tsk04,latency -> acum_flits=50,last=5,min=5,max=5,avg=5
+(07) @003000 pe000,app01,tsk01 -> stops and is unmapped at @3000 (expected at @3000).
+(33) @003000 pe000,acum_cycles_performed -> contextswitching=148,taskexecution=1652,pe_idle=20
+(07) @003000 pe001,app01,tsk02 -> stops and is unmapped at @3000 (root stopped at @3000).
+(33) @003000 pe001,acum_cycles_performed -> contextswitching=110,taskexecution=616,pe_idle=184
+(07) @003000 pe002,app01,tsk03 -> stops and is unmapped at @3000 (root stopped at @3000).
+(33) @003000 pe002,acum_cycles_performed -> contextswitching=100,taskexecution=400,pe_idle=410
+(07) @003000 pe003,app01,tsk04 -> stops and is unmapped at @3000 (root stopped at @3000).
+(33) @003000 pe003,acum_cycles_performed -> contextswitching=98,taskexecution=9,pe_idle=803
+(18) @003001 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(21) @003008 pe002,app01,tsk03 -> Destination task already stopped. Payload ignored!
+(00) @003090 pe000,app01,tsk01 -> being mapped to pe0.
+(02) @003090 pe000,app01,tsk01 -> in sleeping state.
+(00) @003090 pe008,app01,tsk04 -> being mapped to pe8.
+(01) @003090 pe008,app01,tsk04 -> in waiting rx state.
+(00) @003090 pe012,app01,tsk03 -> being mapped to pe12.
+(01) @003090 pe012,app01,tsk03 -> in waiting rx state.
+(00) @003090 pe015,app01,tsk02 -> being mapped to pe15.
+(01) @003090 pe015,app01,tsk02 -> in waiting rx state.
+(03) @003100 pe000,app01,tsk01 -> in ready state.
+(05) @003100 pe000,app01,tsk01 -> in context switching state.
+(06) @003110 pe000,app01,tsk01 -> in running state.
+(09) @003110 pe000,app01,tsk01 -> starts its execution with pb0.
+(11) @003160 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003160 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003160 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003161 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003169 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(20) @003184 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003184 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003184 pe015,app01,tsk02 -> in ready state.
+(05) @003184 pe015,app01,tsk02 -> in context switching state.
+(30) @003184 app01,tsk01->tsk02,latency -> acum_flits=5,last=15,min=15,max=15,avg=15
+(11) @003190 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003190 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003190 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003191 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(06) @003194 pe015,app01,tsk02 -> in running state.
+(09) @003194 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003201 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003210 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003210 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003210 pe012,app01,tsk03 -> in ready state.
+(05) @003210 pe012,app01,tsk03 -> in context switching state.
+(30) @003210 app01,tsk01->tsk03,latency -> acum_flits=6,last=9,min=9,max=9,avg=9
+(06) @003220 pe012,app01,tsk03 -> in running state.
+(09) @003220 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003240 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003240 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003240 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003241 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003249 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003254 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003254 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003254 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003254 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003255 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003260 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003260 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003260 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003260 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003261 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003263 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003264 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003264 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003264 pe015,app01,tsk02 -> in ready state.
+(05) @003264 pe015,app01,tsk02 -> in context switching state.
+(30) @003264 app01,tsk01->tsk02,latency -> acum_flits=10,last=15,min=15,max=15,avg=15
+(18) @003269 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003270 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003270 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003270 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003271 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003274 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003274 app01,tsk02->tsk04,latency -> acum_flits=5,last=11,min=11,max=11,avg=11
+(06) @003274 pe015,app01,tsk02 -> in running state.
+(09) @003274 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003281 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003284 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003284 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003284 pe008,app01,tsk04 -> in ready state.
+(05) @003284 pe008,app01,tsk04 -> in context switching state.
+(30) @003284 app01,tsk03->tsk04,latency -> acum_flits=5,last=15,min=15,max=15,avg=15
+(20) @003290 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003290 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003290 pe012,app01,tsk03 -> in ready state.
+(05) @003290 pe012,app01,tsk03 -> in context switching state.
+(30) @003290 app01,tsk01->tsk03,latency -> acum_flits=12,last=9,min=9,max=9,avg=9
+(06) @003294 pe008,app01,tsk04 -> in running state.
+(09) @003294 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003295 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003295 app01,exectime -> acum_execs=1,last=185,min=185,max=185,avg=185
+(32) @003295 app01,latency -> min=26,max=26,avg=26
+(12) @003295 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003295 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003300 pe012,app01,tsk03 -> in running state.
+(09) @003300 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003320 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003320 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003320 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003321 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003329 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003334 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003334 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003334 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003334 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003335 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003340 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003340 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003340 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003340 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003341 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003343 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003344 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003344 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003344 pe015,app01,tsk02 -> in ready state.
+(05) @003344 pe015,app01,tsk02 -> in context switching state.
+(30) @003344 app01,tsk01->tsk02,latency -> acum_flits=15,last=15,min=15,max=15,avg=15
+(18) @003349 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003350 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003350 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003350 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003351 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003354 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003354 app01,tsk02->tsk04,latency -> acum_flits=10,last=11,min=11,max=11,avg=11
+(06) @003354 pe015,app01,tsk02 -> in running state.
+(09) @003354 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003361 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003364 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003364 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003364 pe008,app01,tsk04 -> in ready state.
+(05) @003364 pe008,app01,tsk04 -> in context switching state.
+(30) @003364 app01,tsk03->tsk04,latency -> acum_flits=10,last=15,min=15,max=15,avg=15
+(20) @003370 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003370 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003370 pe012,app01,tsk03 -> in ready state.
+(05) @003370 pe012,app01,tsk03 -> in context switching state.
+(30) @003370 app01,tsk01->tsk03,latency -> acum_flits=18,last=9,min=9,max=9,avg=9
+(06) @003374 pe008,app01,tsk04 -> in running state.
+(09) @003374 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003375 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003375 app01,exectime -> acum_execs=2,last=185,min=185,max=185,avg=185
+(32) @003375 app01,latency -> min=26,max=26,avg=26
+(12) @003375 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003375 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003380 pe012,app01,tsk03 -> in running state.
+(09) @003380 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003400 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003400 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003400 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003401 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003409 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003414 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003414 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003414 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003414 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003415 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003420 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003420 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003420 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003420 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003421 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003423 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003424 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003424 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003424 pe015,app01,tsk02 -> in ready state.
+(05) @003424 pe015,app01,tsk02 -> in context switching state.
+(30) @003424 app01,tsk01->tsk02,latency -> acum_flits=20,last=15,min=15,max=15,avg=15
+(18) @003429 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003430 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003430 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003430 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003431 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003434 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(30) @003434 app01,tsk03->tsk04,latency -> acum_flits=15,last=5,min=5,max=15,avg=11.6667
+(06) @003434 pe015,app01,tsk02 -> in running state.
+(09) @003434 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003441 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003444 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(08) @003444 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003444 pe008,app01,tsk04 -> in ready state.
+(05) @003444 pe008,app01,tsk04 -> in context switching state.
+(30) @003444 app01,tsk02->tsk04,latency -> acum_flits=15,last=21,min=11,max=21,avg=14.3333
+(20) @003450 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003450 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003450 pe012,app01,tsk03 -> in ready state.
+(05) @003450 pe012,app01,tsk03 -> in context switching state.
+(30) @003450 app01,tsk01->tsk03,latency -> acum_flits=24,last=9,min=9,max=9,avg=9
+(06) @003454 pe008,app01,tsk04 -> in running state.
+(09) @003454 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003455 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003455 app01,exectime -> acum_execs=3,last=185,min=185,max=185,avg=185
+(32) @003455 app01,latency -> min=26,max=36,avg=29
+(12) @003455 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003455 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003460 pe012,app01,tsk03 -> in running state.
+(09) @003460 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003480 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003480 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003480 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003481 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003489 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003494 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003494 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003494 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003494 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003495 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003500 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003500 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003500 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003500 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003501 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003503 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003504 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003504 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003504 pe015,app01,tsk02 -> in ready state.
+(05) @003504 pe015,app01,tsk02 -> in context switching state.
+(30) @003504 app01,tsk01->tsk02,latency -> acum_flits=25,last=15,min=15,max=15,avg=15
+(18) @003509 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003510 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003510 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003510 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003511 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003514 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003514 app01,tsk02->tsk04,latency -> acum_flits=20,last=11,min=11,max=21,avg=13.5
+(06) @003514 pe015,app01,tsk02 -> in running state.
+(09) @003514 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003521 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003524 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003524 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003524 pe008,app01,tsk04 -> in ready state.
+(05) @003524 pe008,app01,tsk04 -> in context switching state.
+(30) @003524 app01,tsk03->tsk04,latency -> acum_flits=20,last=15,min=5,max=15,avg=12.5
+(20) @003530 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003530 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003530 pe012,app01,tsk03 -> in ready state.
+(05) @003530 pe012,app01,tsk03 -> in context switching state.
+(30) @003530 app01,tsk01->tsk03,latency -> acum_flits=30,last=9,min=9,max=9,avg=9
+(06) @003534 pe008,app01,tsk04 -> in running state.
+(09) @003534 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003535 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003535 app01,exectime -> acum_execs=4,last=185,min=185,max=185,avg=185
+(32) @003535 app01,latency -> min=26,max=36,avg=28
+(12) @003535 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003535 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003540 pe012,app01,tsk03 -> in running state.
+(09) @003540 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003560 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003560 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003560 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003561 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003569 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003574 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003574 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003574 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003574 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003575 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003580 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003580 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003580 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003580 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003581 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003583 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003584 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003584 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003584 pe015,app01,tsk02 -> in ready state.
+(05) @003584 pe015,app01,tsk02 -> in context switching state.
+(30) @003584 app01,tsk01->tsk02,latency -> acum_flits=30,last=15,min=15,max=15,avg=15
+(18) @003589 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003590 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003590 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003590 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003591 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003594 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003594 app01,tsk02->tsk04,latency -> acum_flits=25,last=11,min=11,max=21,avg=13
+(06) @003594 pe015,app01,tsk02 -> in running state.
+(09) @003594 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003601 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003604 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003604 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003604 pe008,app01,tsk04 -> in ready state.
+(05) @003604 pe008,app01,tsk04 -> in context switching state.
+(30) @003604 app01,tsk03->tsk04,latency -> acum_flits=25,last=15,min=5,max=15,avg=13
+(20) @003610 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003610 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003610 pe012,app01,tsk03 -> in ready state.
+(05) @003610 pe012,app01,tsk03 -> in context switching state.
+(30) @003610 app01,tsk01->tsk03,latency -> acum_flits=36,last=9,min=9,max=9,avg=9
+(06) @003614 pe008,app01,tsk04 -> in running state.
+(09) @003614 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003615 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003615 app01,exectime -> acum_execs=5,last=185,min=185,max=185,avg=185
+(32) @003615 app01,latency -> min=26,max=36,avg=28
+(12) @003615 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003615 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003620 pe012,app01,tsk03 -> in running state.
+(09) @003620 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003640 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003640 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003640 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003641 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003649 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003654 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003654 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003654 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003654 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003655 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003660 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003660 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003660 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003660 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003661 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003663 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003664 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003664 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003664 pe015,app01,tsk02 -> in ready state.
+(05) @003664 pe015,app01,tsk02 -> in context switching state.
+(30) @003664 app01,tsk01->tsk02,latency -> acum_flits=35,last=15,min=15,max=15,avg=15
+(18) @003669 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003670 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003670 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003670 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003671 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003674 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(30) @003674 app01,tsk03->tsk04,latency -> acum_flits=30,last=5,min=5,max=15,avg=11.6667
+(06) @003674 pe015,app01,tsk02 -> in running state.
+(09) @003674 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003681 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003684 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(08) @003684 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003684 pe008,app01,tsk04 -> in ready state.
+(05) @003684 pe008,app01,tsk04 -> in context switching state.
+(30) @003684 app01,tsk02->tsk04,latency -> acum_flits=30,last=21,min=11,max=21,avg=14.3333
+(20) @003690 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003690 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003690 pe012,app01,tsk03 -> in ready state.
+(05) @003690 pe012,app01,tsk03 -> in context switching state.
+(30) @003690 app01,tsk01->tsk03,latency -> acum_flits=42,last=9,min=9,max=9,avg=9
+(06) @003694 pe008,app01,tsk04 -> in running state.
+(09) @003694 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003695 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003695 app01,exectime -> acum_execs=6,last=185,min=185,max=185,avg=185
+(32) @003695 app01,latency -> min=26,max=36,avg=29
+(12) @003695 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003695 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003700 pe012,app01,tsk03 -> in running state.
+(09) @003700 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003720 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003720 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003720 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003721 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003729 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003734 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003734 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003734 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003734 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003735 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003740 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003740 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003740 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003740 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003741 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003743 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003744 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003744 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003744 pe015,app01,tsk02 -> in ready state.
+(05) @003744 pe015,app01,tsk02 -> in context switching state.
+(30) @003744 app01,tsk01->tsk02,latency -> acum_flits=40,last=15,min=15,max=15,avg=15
+(18) @003749 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003750 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003750 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003750 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003751 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003754 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003754 app01,tsk02->tsk04,latency -> acum_flits=35,last=11,min=11,max=21,avg=13.8571
+(06) @003754 pe015,app01,tsk02 -> in running state.
+(09) @003754 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003761 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003764 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003764 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003764 pe008,app01,tsk04 -> in ready state.
+(05) @003764 pe008,app01,tsk04 -> in context switching state.
+(30) @003764 app01,tsk03->tsk04,latency -> acum_flits=35,last=15,min=5,max=15,avg=12.1429
+(20) @003770 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003770 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003770 pe012,app01,tsk03 -> in ready state.
+(05) @003770 pe012,app01,tsk03 -> in context switching state.
+(30) @003770 app01,tsk01->tsk03,latency -> acum_flits=48,last=9,min=9,max=9,avg=9
+(06) @003774 pe008,app01,tsk04 -> in running state.
+(09) @003774 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003775 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003775 app01,exectime -> acum_execs=7,last=185,min=185,max=185,avg=185
+(32) @003775 app01,latency -> min=26,max=36,avg=28
+(12) @003775 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003775 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003780 pe012,app01,tsk03 -> in running state.
+(09) @003780 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003800 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003800 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003800 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003801 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003809 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003814 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003814 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003814 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003814 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003815 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003820 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003820 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003820 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003820 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003821 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003823 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003824 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003824 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003824 pe015,app01,tsk02 -> in ready state.
+(05) @003824 pe015,app01,tsk02 -> in context switching state.
+(30) @003824 app01,tsk01->tsk02,latency -> acum_flits=45,last=15,min=15,max=15,avg=15
+(18) @003829 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003830 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003830 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003830 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003831 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003834 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003834 app01,tsk02->tsk04,latency -> acum_flits=40,last=11,min=11,max=21,avg=13.5
+(06) @003834 pe015,app01,tsk02 -> in running state.
+(09) @003834 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003841 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003844 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(08) @003844 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003844 pe008,app01,tsk04 -> in ready state.
+(05) @003844 pe008,app01,tsk04 -> in context switching state.
+(30) @003844 app01,tsk03->tsk04,latency -> acum_flits=40,last=15,min=5,max=15,avg=12.5
+(20) @003850 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003850 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003850 pe012,app01,tsk03 -> in ready state.
+(05) @003850 pe012,app01,tsk03 -> in context switching state.
+(30) @003850 app01,tsk01->tsk03,latency -> acum_flits=54,last=9,min=9,max=9,avg=9
+(06) @003854 pe008,app01,tsk04 -> in running state.
+(09) @003854 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003855 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003855 app01,exectime -> acum_execs=8,last=185,min=185,max=185,avg=185
+(32) @003855 app01,latency -> min=26,max=36,avg=28
+(12) @003855 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003855 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003860 pe012,app01,tsk03 -> in running state.
+(09) @003860 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003880 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003880 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003880 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003881 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003889 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003894 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003894 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003894 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003894 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003895 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003900 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003900 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003900 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003900 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003901 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003903 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003904 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003904 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003904 pe015,app01,tsk02 -> in ready state.
+(05) @003904 pe015,app01,tsk02 -> in context switching state.
+(30) @003904 app01,tsk01->tsk02,latency -> acum_flits=50,last=15,min=15,max=15,avg=15
+(18) @003909 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003910 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003910 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003910 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003911 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003914 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
+(30) @003914 app01,tsk03->tsk04,latency -> acum_flits=45,last=5,min=5,max=15,avg=11.6667
+(06) @003914 pe015,app01,tsk02 -> in running state.
+(09) @003914 pe015,app01,tsk02 -> starts its execution with pb0.
+(18) @003921 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(20) @003924 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(08) @003924 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @003924 pe008,app01,tsk04 -> in ready state.
+(05) @003924 pe008,app01,tsk04 -> in context switching state.
+(30) @003924 app01,tsk02->tsk04,latency -> acum_flits=45,last=21,min=11,max=21,avg=14.3333
+(20) @003930 pe012,app01,tsk03 -> receives payload of pb1 (task1) from WNoC.
+(08) @003930 pe012,app01,tsk03 -> receives all antecedent payloads.
+(03) @003930 pe012,app01,tsk03 -> in ready state.
+(05) @003930 pe012,app01,tsk03 -> in context switching state.
+(30) @003930 app01,tsk01->tsk03,latency -> acum_flits=60,last=9,min=9,max=9,avg=9
+(06) @003934 pe008,app01,tsk04 -> in running state.
+(09) @003934 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @003935 pe008,app01,tsk04 -> pb0 completes its processing.
+(31) @003935 app01,exectime -> acum_execs=9,last=185,min=185,max=185,avg=185
+(32) @003935 app01,latency -> min=26,max=36,avg=29
+(12) @003935 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @003935 pe008,app01,tsk04 -> in waiting rx state.
+(06) @003940 pe012,app01,tsk03 -> in running state.
+(09) @003940 pe012,app01,tsk03 -> starts its execution with pb0.
+(11) @003960 pe000,app01,tsk01 -> pb0 completes its processing.
+(13) @003960 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
+(14) @003960 pe000,app01,tsk01 -> continues execution with pb1.
+(16) @003961 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
+(18) @003969 pe000,app01,tsk01 -> payload of pb0 is out to WNoC.
+(11) @003974 pe015,app01,tsk02 -> pb0 completes its processing.
+(13) @003974 pe015,app01,tsk02 -> payload of pb0 is ready to be transferred.
+(12) @003974 pe015,app01,tsk02 -> completes its pbs and releases the pe.
+(01) @003974 pe015,app01,tsk02 -> in waiting rx state.
+(16) @003975 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
+(11) @003980 pe012,app01,tsk03 -> pb0 completes its processing.
+(13) @003980 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
+(12) @003980 pe012,app01,tsk03 -> completes its pbs and releases the pe.
+(01) @003980 pe012,app01,tsk03 -> in waiting rx state.
+(16) @003981 pe012,app01,tsk03 -> payload of pb0 being transferred to WNoC.
+(18) @003983 pe015,app01,tsk02 -> payload of pb0 is out to WNoC.
+(20) @003984 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
+(08) @003984 pe015,app01,tsk02 -> receives all antecedent payloads.
+(03) @003984 pe015,app01,tsk02 -> in ready state.
+(05) @003984 pe015,app01,tsk02 -> in context switching state.
+(30) @003984 app01,tsk01->tsk02,latency -> acum_flits=55,last=15,min=15,max=15,avg=15
+(18) @003989 pe012,app01,tsk03 -> payload of pb0 is out to WNoC.
+(11) @003990 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @003990 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @003990 pe000,app01,tsk01 -> continues execution with pb0.
+(16) @003991 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(20) @003994 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
+(30) @003994 app01,tsk02->tsk04,latency -> acum_flits=50,last=11,min=11,max=21,avg=14
+(06) @003994 pe015,app01,tsk02 -> in running state.
+(09) @003994 pe015,app01,tsk02 -> starts its execution with pb0.
+(07) @004000 pe000,app01,tsk01 -> stops and is unmapped at @4000 (expected at @4000).
+(33) @004000 pe000,acum_cycles_performed -> contextswitching=158,taskexecution=2542,pe_idle=30
+(07) @004000 pe008,app01,tsk04 -> stops and is unmapped at @4000 (root stopped at @4000).
+(33) @004000 pe008,acum_cycles_performed -> contextswitching=90,taskexecution=9,pe_idle=811
+(07) @004000 pe012,app01,tsk03 -> stops and is unmapped at @4000 (root stopped at @4000).
+(33) @004000 pe012,acum_cycles_performed -> contextswitching=100,taskexecution=400,pe_idle=410
+(07) @004000 pe015,app01,tsk02 -> stops and is unmapped at @4000 (root stopped at @4000).
+(33) @004000 pe015,acum_cycles_performed -> contextswitching=110,taskexecution=606,pe_idle=194
+(18) @004001 pe000,app01,tsk01 -> payload of pb1 is out to WNoC.
+(21) @004004 pe008,app01,tsk04 -> Destination task already stopped. Payload ignored!
+(21) @004010 pe012,app01,tsk03 -> Destination task already stopped. Payload ignored!
+
+***********************
+Task Mapping Statistics
+***********************
+
+*** App1 - Mapping0 ***
+Execution Time for Completed Executions (from root to leaf) (executions,min,avg,max)=2,341,421,502
+Latency per Branch for all Flits Transmitted (from start to stop) (flits,min,avg,max)
+  br0: 1-2=0,0,0,0 -> 2-4=0,0,0,0 -->> T=0,0,0,0
+  br1: 1-3=0,0,0,0 -> 3-4=0,0,0,0 -->> T=0,0,0,0
+Critical Branch Latency for Completed Executions (from root to leaf) (flits,min,avg,max)=0,0,0,0
+
+*** App1 - Mapping1 ***
+Execution Time for Completed Executions (from root to leaf) (executions,min,avg,max)=9,173,173,173
+Latency per Branch for all Flits Transmitted (from start to stop) (flits,min,avg,max)
+  br0: 1-2=55,5,5,5 -> 2-4=50,7,7,7 -->> T=105,12,12,12
+  br1: 1-3=66,7,7,7 -> 3-4=50,5,5,5 -->> T=116,12,12,12
+Critical Branch Latency for Completed Executions (from root to leaf) (flits,min,avg,max)=95,12,12,12
+
+*** App1 - Mapping2 ***
+Execution Time for Completed Executions (from root to leaf) (executions,min,avg,max)=9,185,185,185
+Latency per Branch for all Flits Transmitted (from start to stop) (flits,min,avg,max)
+  br0: 1-2=55,15,15,15 -> 2-4=50,11,14,21 -->> T=105,26,29,36
+  br1: 1-3=66,9,9,9 -> 3-4=50,5,12,15 -->> T=116,14,21,24
+Critical Branch Latency for Completed Executions (from root to leaf) (flits,min,avg,max)=95,26,29,36
+
+
+*** pe: 0 ***
+Total Context Switching Cycles=158
+Total Task Execution Cycles=2542
+Total PE Idle Cycles=30
+Total Mapped Task Cycles=2730
+Total Mapped Task Cycles (expected)=2730
+Total Energy (J)=0.00120691
+      Context Switching Energy (J)=7.0626e-05
+      Task Execution Energy (J)=0.00113627
+      Idle Energy (J)=6.54e-09
+
+*** pe: 1 ***
+Total Context Switching Cycles=110
+Total Task Execution Cycles=616
+Total PE Idle Cycles=184
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=0.000324562
+      Context Switching Energy (J)=4.917e-05
+      Task Execution Energy (J)=0.000275352
+      Idle Energy (J)=4.0112e-08
+
+*** pe: 2 ***
+Total Context Switching Cycles=100
+Total Task Execution Cycles=400
+Total PE Idle Cycles=410
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=0.000223589
+      Context Switching Energy (J)=4.47e-05
+      Task Execution Energy (J)=0.0001788
+      Idle Energy (J)=8.938e-08
+
+*** pe: 3 ***
+Total Context Switching Cycles=98
+Total Task Execution Cycles=9
+Total PE Idle Cycles=803
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=4.80041e-05
+      Context Switching Energy (J)=4.3806e-05
+      Task Execution Energy (J)=4.023e-06
+      Idle Energy (J)=1.75054e-07
+
+*** pe: 8 ***
+Total Context Switching Cycles=90
+Total Task Execution Cycles=9
+Total PE Idle Cycles=811
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=4.44298e-05
+      Context Switching Energy (J)=4.023e-05
+      Task Execution Energy (J)=4.023e-06
+      Idle Energy (J)=1.76798e-07
+
+*** pe: 12 ***
+Total Context Switching Cycles=100
+Total Task Execution Cycles=400
+Total PE Idle Cycles=410
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=0.000223589
+      Context Switching Energy (J)=4.47e-05
+      Task Execution Energy (J)=0.0001788
+      Idle Energy (J)=8.938e-08
+
+*** pe: 15 ***
+Total Context Switching Cycles=110
+Total Task Execution Cycles=606
+Total PE Idle Cycles=194
+Total Mapped Task Cycles=910
+Total Mapped Task Cycles (expected)=910
+Total Energy (J)=0.000320094
+      Context Switching Energy (J)=4.917e-05
+      Task Execution Energy (J)=0.000270882
+      Idle Energy (J)=4.2292e-08
+
+*** pe overall ***
+Total Context Switching Cycles=766
+Total Task Execution Cycles=4582
+Total PE Idle Cycles=2842
+Total Mapped Task Cycles=8190
+Total Energy (J)=0.00239118
+      Context Switching Energy (J)=0.000342402
+      Task Execution Energy (J)=0.00204815
+      Idle Energy (J)=6.19556e-07
+
+
+***************
+WNoC Statistics
+***************
+
+% Total received packets: 84
+% Total received flits: 442
+% Received/Ideal flits Ratio: 0.000306944
+% Average wireless utilization: 0
+% Global average delay (cycles): 8.2381
+% Max delay (cycles): 20
+% Network throughput (flits/cycle): 0.0491111
+% Average IP throughput (flits/cycle/IP): 0.00306944
+% Total energy (J): 3.48744e-06
+% 	Dynamic energy (J): 9.45915e-09
+% 	Static energy (J): 3.47798e-06
+

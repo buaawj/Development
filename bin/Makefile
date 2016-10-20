@@ -1,6 +1,6 @@
 ##### LIBRARIES CONFIGURATION #####
 
-SYSTEMC := /opt/systemc
+SYSTEMC := libs/systemc-2.3.1
 YAML    := libs/yaml-cpp
 
 
@@ -37,14 +37,14 @@ OTHER    := -Wall# -Wno-deprecated
 TM_SIM_ASSERT := -DDEFINE_TM_ASSERT
 # if DEFINE_TM_WARNING is defined, Noxim shows warnings when they occur.
 TM_SIM_WARNING := # -DDEFINE_TM_WARNING
-# if DEFINE_TM_SIMCONFIGLOG is defined, tm_engine writes simulation configuration 
+# if DEFINE_TM_SIMCONFIGLOG is defined, tm_engine writes simulation configuration
 # logs to the specified log file or the standard output.
 TM_SIM_CONFIGLOG := -DDEFINE_TM_SIMCONFIGLOG
-# if DEFINE_TM_SIMEXECLOG is defined, Noxim writes simulation execution logs to the 
+# if DEFINE_TM_SIMEXECLOG is defined, Noxim writes simulation execution logs to the
 # specified log file.
 # if TM_SIMEXECLOG_EXTENDED is defined, Noxim writes extended logs.
 TM_SIM_SIMEXECLOG := -DDEFINE_TM_SIMEXECLOG -DTM_SIMEXECLOG_EXTENDED
-# if DEFINE_TM_SIMSTATSLOG is defined, tm_engine writes simulation statistics logs 
+# if DEFINE_TM_SIMSTATSLOG is defined, tm_engine writes simulation statistics logs
 # to the specified log file or the standard output.
 TM_SIM_SIMSTATSLOG := -DDEFINE_TM_SIMSTATSLOG
 TM_SIM_OPS := $(TM_SIM_ASSERT) $(TM_SIM_WARNING) $(TM_SIM_CONFIGLOG) $(TM_SIM_SIMEXECLOG) $(TM_SIM_SIMSTATSLOG)
@@ -54,7 +54,7 @@ CXXFLAGS := $(OPT) $(OTHER) $(DEBUG) $(TM_SIM_OPS)
 INCDIR := -I$(SRCDIR) -isystem $(SYSTEMC)/include -I$(YAML)/include
 LIBDIR := -L$(SRCDIR) -L$(SYSTEMC_LIBS) -L$(YAML)/lib
 
-LIBS := -lsystemc -lm -lyaml-cpp 
+LIBS := -lsystemc -lm -lyaml-cpp
 
 SPACE := $(subst ,, )
 VPATH := $(SRCDIR):$(subst $(SPACE),:,$(SUBDIRS))

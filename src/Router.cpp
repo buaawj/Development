@@ -36,6 +36,13 @@ void Router::rxProcess()
 		&& !buffer[i].IsFull()) {
 		Flit received_flit = flit_rx[i].read();
 
+                // *************
+                // Added by LGGM
+                // *************
+                // Perhaps the authors forgot this sentence
+                if (local_id != received_flit.src_id)
+                  received_flit.hop_no++;
+
 		// Store the incoming flit in the circular buffer
 		buffer[i].Push(received_flit);
 
@@ -115,7 +122,7 @@ void Router::txProcess()
       for (int i = 0; i < DIRECTIONS + 2; i++) 
       {
 	  if (!buffer[i].IsEmpty()) 
-	  {
+	  { 
 	      // power contribution already computed in 1st phase
 	      Flit flit = buffer[i].Front();
 
@@ -153,7 +160,7 @@ void Router::txProcess()
 		      if (flit.flit_type == FLIT_TYPE_TAIL)
 			  reservation_table.release(o);
 
-		      // Update stats
+                      // Update stats
 		      if (o == DIRECTION_LOCAL) 
 		      {
 			  LOG << "Consumed flit " << flit << endl;
