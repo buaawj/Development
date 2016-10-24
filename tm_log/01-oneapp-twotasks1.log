@@ -1,4 +1,4 @@
-Task Mapping Simulation File created on: Tue Oct 18 11:33:28 2016
+Task Mapping Simulation File created on: Fri Oct 21 11:41:10 2016
 
 ************************
 TaskMapping File Reading
@@ -504,6 +504,7 @@ Execution Time (CPU + Comm.) (executions,min,avg,max)=4,551,647,680 (cycles)
 Communication Time per Branch (payloads,min,avg,max)
   br0: 1-2=0,0,0,0 -->> T(min,avg,max)=0,0,0 (cycles)
 Communication Time Critical Branch (min,avg,max)=0,0,0 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=0,0,0,0 (cycles)
 FLITs Transmitted to Same PE=100
 FLITs Ignored due to Application Unmapping=0
 FLIT End2End Latency (flits,min,avg,max)=0,0,0,0 (cycles)
@@ -515,6 +516,7 @@ Execution Time (CPU + Comm.) (executions,min,avg,max)=6,404,404,404 (cycles)
 Communication Time per Branch (payloads,min,avg,max)
   br0: 1-2=7,43,43,43 -->> T(min,avg,max)=43,43,43 (cycles)
 Communication Time Critical Branch (min,avg,max)=43,43,43 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=7,0,0,0 (cycles)
 FLITs Transmitted to Same PE=0
 FLITs Ignored due to Application Unmapping=0
 FLIT End2End Latency (flits,min,avg,max)=140,5,5,5 (cycles)
@@ -526,6 +528,7 @@ Execution Time (CPU + Comm.) (executions,min,avg,max)=6,414,414,414 (cycles)
 Communication Time per Branch (payloads,min,avg,max)
   br0: 1-2=7,53,53,53 -->> T(min,avg,max)=53,53,53 (cycles)
 Communication Time Critical Branch (min,avg,max)=53,53,53 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=7,0,0,0 (cycles)
 FLITs Transmitted to Same PE=0
 FLITs Ignored due to Application Unmapping=0
 FLIT End2End Latency (flits,min,avg,max)=140,15,15,15 (cycles)
@@ -535,6 +538,7 @@ FLIT Communication Cost (flits x average hopcount)=840
 *** App overall ***
 Execution Time (CPU + Comm.) (executions,min,avg,max)=16,404,468,680 (cycles)
 Communication Time Critical Branch (min,avg,max)=43,48,53 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=14,0,0,0 (cycles)
 FLITs Transmitted to Same PE=100
 FLITs Ignored due to Application Unmapping=0
 FLIT End2End Latency (flits,min,avg,max)=280,5,10,15 (cycles)
@@ -543,6 +547,8 @@ FLIT Communication Cost (flits x average hopcount)=980
 
 
 *** pe: 0 ***
+Total FLITs Transmitted=280
+Total FLITs Received=0
 Total Context Switching Cycles=390
 Total Task Execution Cycles=3909
 Total PE Idle Cycles=1431
@@ -554,6 +560,8 @@ Total Energy (J)=0.00192196
       Idle Energy (J)=3.11958e-07
 
 *** pe: 1 ***
+Total FLITs Transmitted=0
+Total FLITs Received=140
 Total Context Switching Cycles=70
 Total Task Execution Cycles=1326
 Total PE Idle Cycles=514
@@ -565,6 +573,8 @@ Total Energy (J)=0.000624124
       Idle Energy (J)=1.12052e-07
 
 *** pe: 15 ***
+Total FLITs Transmitted=0
+Total FLITs Received=140
 Total Context Switching Cycles=70
 Total Task Execution Cycles=1316
 Total PE Idle Cycles=524
@@ -576,6 +586,8 @@ Total Energy (J)=0.000619656
       Idle Energy (J)=1.14232e-07
 
 *** pe overall ***
+Total FLITs Transmitted=280
+Total FLITs Received=280
 Total Context Switching Cycles=530
 Total Task Execution Cycles=6551
 Total PE Idle Cycles=2469

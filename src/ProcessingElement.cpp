@@ -95,17 +95,23 @@ void ProcessingElement::peTxProcess() {
     current_level_tx = 0;
   } 
   else {
-    Packet packet;
+    Packet * packet;
+    queue < Packet > _tx_packet_queue;	// Packets inserted by tasks
 
-    if (peMapTaskExec->canShot(packet)) {
-      if (packet.src_id == packet.dst_id) {
-        while (packet.flit_left) {
-          Flit flit_read_samepe = peMapTaskExec->tm_nextFlit_samepe(packet);
-          peMapTaskExec->processReceivedFlit(flit_read_samepe);
+    if (peMapTaskExec->canShot(_tx_packet_queue)) {
+      while (!_tx_packet_queue.empty()) {
+        packet = &_tx_packet_queue.front();
+        if (packet->src_id == packet->dst_id) {
+          while (packet->flit_left) {
+            Flit flit_read_samepe = peMapTaskExec->tm_nextFlit_samepe(*packet);
+            peMapTaskExec->processReceivedFlit(flit_read_samepe);
+          }
         }
+        else {
+          packet_queue.push(*packet);
+        }
+        _tx_packet_queue.pop();
       }
-      else
-	packet_queue.push(packet);
     } 
 
     if (ack_tx.read() == current_level_tx) {

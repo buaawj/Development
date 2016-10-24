@@ -123,7 +123,7 @@ public:
   void timeToCheckRunningTasks(double ccycle);
 
   // Functions to be called from peTxProcess and peRxProcess
-  bool canShot(Packet & packet);
+  bool canShot(queue < Packet > & qp);
   Flit tm_nextFlit_samepe(Packet & p);
   Flit tm_nextFlit(queue < Packet > & packet_queue);
   void processReceivedFlit(Flit flit);

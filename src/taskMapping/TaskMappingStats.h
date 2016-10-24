@@ -28,6 +28,8 @@ private:
   T         _stat_cswitching_acum;
   T         _stat_tskexec_acum;
   T         _stat_idle_acum;
+  int       _stat_flits_tx;  
+  int       _stat_flits_rx;  
   
   T         _stat_cycles_total;
   double    _stat_cswitching_energy_d;
@@ -39,6 +41,8 @@ private:
     _stat_cswitching_acum = 0;
     _stat_tskexec_acum = 0;
     _stat_idle_acum = 0;
+    _stat_flits_tx = 0;
+    _stat_flits_rx = 0;
     
     _stat_cycles_total = 0;
     _stat_cswitching_energy_d = 0;
@@ -56,6 +60,8 @@ public:
     temp._stat_cswitching_acum = _stat_cswitching_acum + other._stat_cswitching_acum;
     temp._stat_tskexec_acum = _stat_tskexec_acum + other._stat_tskexec_acum;
     temp._stat_idle_acum = _stat_idle_acum + other._stat_idle_acum;
+    temp._stat_flits_tx = _stat_flits_tx + other._stat_flits_tx;
+    temp._stat_flits_rx = _stat_flits_rx + other._stat_flits_rx;
     
     temp._stat_cycles_total = _stat_cycles_total + other._stat_cycles_total;
     temp._stat_cswitching_energy_d = _stat_cswitching_energy_d + other._stat_cswitching_energy_d;
@@ -83,6 +89,18 @@ public:
   }
   inline T statGetIdleCycles(void) {
     return _stat_idle_acum;
+  }
+  inline void statIncFlitsTx(void) {
+    this->_stat_flits_tx++;
+  }
+  inline T statGetFlitsTx(void) {
+    return _stat_flits_tx;
+  }
+  inline void statIncFlitsRx(void) {
+    this->_stat_flits_rx++;
+  }
+  inline T statGetFlitsRx(void) {
+    return _stat_flits_rx;
   }
   inline void statComputePeTotalCyclesAndEnergy(void) {
     this->_stat_cycles_total = _stat_cswitching_acum + 

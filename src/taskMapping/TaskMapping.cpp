@@ -112,6 +112,7 @@ void tm_app::printSubsequentCommTimePerBranch(int imap, tm_task * t, string init
 
 void tm_app::printStats(tm_appexec_statistics <int_cycles> & stat_exectime,
                         tm_appexec_statistics <int_cycles> & stat_commtime,
+                        tm_appexec_statistics <int_cycles> & stat_txstart_delay,
                         tm_appexec_statistics <int_cycles> & stat_end2end_latency,
                         tm_appexec_statistics <int_cycles> & stat_hopcount,
                         int & stat_flits_ignored,
@@ -131,6 +132,12 @@ void tm_app::printStats(tm_appexec_statistics <int_cycles> & stat_exectime,
                     << app_mappings[imap].stat_commtime.statGetMin() << ","
                     << (int)app_mappings[imap].stat_commtime.statGetAverage() << ","
                     << app_mappings[imap].stat_commtime.statGetMax() << " (cycles)" << endl);
+    stat_txstart_delay.statAddNewValue(app_mappings[imap].stat_txstart_delay);
+    TM_SIMSTATSLOG("Transmission Start Delay (head_flits_tx,min,avg,max)=" 
+                    << app_mappings[imap].stat_txstart_delay.statGetExecNumber() << "," // real payloads transmitted in the Branch from root to leaf
+                    << app_mappings[imap].stat_txstart_delay.statGetMin() << ","
+                    << (int)app_mappings[imap].stat_txstart_delay.statGetAverage() << ","
+                    << app_mappings[imap].stat_txstart_delay.statGetMax() << " (cycles)" << endl);
     stat_flits_to_samepe += app_mappings[imap].stat_flist_to_samepe;
     TM_SIMSTATSLOG("FLITs Transmitted to Same PE="
                     << app_mappings[imap].stat_flist_to_samepe
@@ -284,7 +291,9 @@ void tm_pe::printStats(void) {
   stats.statComputePeTotalCyclesAndEnergy();
   
   TM_SIMSTATSLOG("*** pe: " << _id << " ***" << endl);
-  TM_SIMSTATSLOG(   "Total Context Switching Cycles=" << stats.statGetCSwitchingCycles() << endl
+  TM_SIMSTATSLOG(   "Total FLITs Transmitted=" << stats.statGetFlitsTx() << endl
+                 << "Total FLITs Received=" << stats.statGetFlitsRx() << endl
+                 << "Total Context Switching Cycles=" << stats.statGetCSwitchingCycles() << endl
                  << "Total Task Execution Cycles=" << stats.statGetTskExecCycles() << endl
                  << "Total PE Idle Cycles=" << stats.statGetIdleCycles() << endl
                  << "Total Mapped Task Cycles=" << stats.statGetPeTotalCycles() << endl
@@ -710,13 +719,13 @@ void TaskMapping::showAllMappedTasksOnPEsInfo(void) {
 }
 
 void TaskMapping::showAppStatistics(void) {
-  tm_appexec_statistics <int_cycles> stat_exectime, stat_commtime,
+  tm_appexec_statistics <int_cycles> stat_exectime, stat_commtime, stat_txstart_delay, 
                                      stat_end2end_latency, stat_hopcount;
   int stat_flits_ignored = 0;
   int stat_flits_to_samepe = 0;
   
   for (map< int, tm_app >::iterator it=tm_apps.begin(); it!=tm_apps.end(); ++it) {
-    it->second.printStats(stat_exectime, stat_commtime, stat_end2end_latency, stat_hopcount, stat_flits_ignored, stat_flits_to_samepe);
+    it->second.printStats(stat_exectime, stat_commtime, stat_txstart_delay, stat_end2end_latency, stat_hopcount, stat_flits_ignored, stat_flits_to_samepe);
   }
 
   TM_SIMSTATSLOG("*** App overall ***" << endl);
@@ -728,6 +737,11 @@ void TaskMapping::showAppStatistics(void) {
                  << stat_commtime.statGetMin() << ","
                  << (int)stat_commtime.statGetAverage() << ","
                  << stat_commtime.statGetMax() << " (cycles)" << endl);
+  TM_SIMSTATSLOG("Transmission Start Delay (head_flits_tx,min,avg,max)=" 
+                  << stat_txstart_delay.statGetExecNumber() << "," // real payloads transmitted in the Branch from root to leaf
+                  << stat_txstart_delay.statGetMin() << ","
+                  << (int)stat_txstart_delay.statGetAverage() << ","
+                  << stat_txstart_delay.statGetMax() << " (cycles)" << endl);
   TM_SIMSTATSLOG("FLITs Transmitted to Same PE="
                  << stat_flits_to_samepe
                  << endl);
@@ -758,7 +772,9 @@ void TaskMapping::showPEStatistics(void) {
   }  
   
   TM_SIMSTATSLOG("*** pe overall ***" << endl);
-  TM_SIMSTATSLOG(   "Total Context Switching Cycles=" << stats_acum.statGetCSwitchingCycles() << endl
+  TM_SIMSTATSLOG(   "Total FLITs Transmitted=" << stats_acum.statGetFlitsTx() << endl
+                 << "Total FLITs Received=" << stats_acum.statGetFlitsRx() << endl
+                 << "Total Context Switching Cycles=" << stats_acum.statGetCSwitchingCycles() << endl
                  << "Total Task Execution Cycles=" << stats_acum.statGetTskExecCycles() << endl
                  << "Total PE Idle Cycles=" << stats_acum.statGetIdleCycles() << endl
                  << "Total Mapped Task Cycles=" << stats_acum.statGetPeTotalCycles() << endl

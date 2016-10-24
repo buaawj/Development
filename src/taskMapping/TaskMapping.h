@@ -119,6 +119,7 @@ public:
   tm_appexec_statistics <int_cycles>    stat_commtime;
   tm_appexec_statistics <int_cycles>    stat_end2end_latency;
   tm_appexec_statistics <int_cycles>    stat_hopcount;
+  tm_appexec_statistics <int_cycles>    stat_txstart_delay;
   int                                   stat_flits_ignored;
   int                                   stat_flist_to_samepe;
   
@@ -261,7 +262,8 @@ public:
   }
   void printSubsequentCommTimePerBranch(int imap, tm_task * t, string initss = "", tm_appexec_statistics <int> initstat = tm_appexec_statistics <int>());
   void printStats(tm_appexec_statistics <int_cycles> & stat_exectime,
-                  tm_appexec_statistics <int_cycles> & stat_root_leaf_latency,
+                  tm_appexec_statistics <int_cycles> & stat_commtime,
+                  tm_appexec_statistics <int_cycles> & stat_txstart_delay,
                   tm_appexec_statistics <int_cycles> & stat_end2end_latency,
                   tm_appexec_statistics <int_cycles> & stat_hopcount,
                   int & stat_flits_ignored,

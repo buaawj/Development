@@ -620,24 +620,28 @@ void PEMappedTaskExecution::timeToCheckRunningTasks(double ccycle) {
  * Public functions: functions to be called from peTxProcess and peRxProcess
  */
 
-bool PEMappedTaskExecution::canShot(Packet & p) {
+bool PEMappedTaskExecution::canShot(queue < Packet > & qp) {
   tm_tx_block * tx_b;		// Transmission Block
   tm_task * t_src, *t_dst;
   double ccycle = sc_time_stamp().to_double() / GlobalParams::clock_period_ps;
+  bool retValue = false;
   
-  if (!waitingpb_tx.empty()) {
+  while (!waitingpb_tx.empty()) {
     tx_b = &waitingpb_tx.front();
     if (ccycle >= tx_b->getStartTxCycle()) {
+      Packet p;
+      
       t_src = ((tm_tx_block *)tx_b)->getSrcTask();
       t_dst = ((tm_tx_block *)tx_b)->getDstTask();
       
       p.src_id = t_src->getPeId();	// source pe
       p.dst_id = t_dst->getPeId();	// destiny pe
-      p.timestamp = ccycle;
+      p.timestamp = ccycle;             // Packet ready to be transferred
       p.size = p.flit_left = t_src->pblocks_tasks[tx_b->getPbId()].getPayLoad();
       p.src_task = t_src;
       p.dst_task = t_dst;
       p.pblock_id = tx_b->getPbId();
+      qp.push(p);
       waitingpb_tx.pop();
       
 #ifdef DEFINE_TM_SIMEXECLOG
@@ -654,11 +658,13 @@ bool PEMappedTaskExecution::canShot(Packet & p) {
 		      " being transferred to WNoC.");
       }
 #endif      
-      return true;
+      retValue = true;
     }
+    else
+      break;
   }
   
-  return false;
+  return retValue;
 }
 
 Flit PEMappedTaskExecution::_tm_nextFlit(Packet & p)
@@ -678,13 +684,28 @@ Flit PEMappedTaskExecution::_tm_nextFlit(Packet & p)
   flit.dst_task = p.dst_task;
   flit.pblock_id = p.pblock_id;
 
-  if (p.size == p.flit_left)
+  if (p.size == p.flit_left) {
+    tm_task *t_src;
+    int appCurrentMapping;
+    
+    t_src = (tm_task *)flit.src_task;
+    appCurrentMapping = t_src->getApp()->getCurrentMappingInt();
+
+    // FLIT Statistics
+    if (flit.src_id != flit.dst_id) {
+      t_src->getApp()->app_mappings[appCurrentMapping].stat_txstart_delay.statAddNewValue(ccycle - p.timestamp);
+    }
+    
     flit.flit_type = FLIT_TYPE_HEAD;
+  }
   else if (p.flit_left == 1)
     flit.flit_type = FLIT_TYPE_TAIL;
   else
     flit.flit_type = FLIT_TYPE_BODY;
 
+  TM_ASSERT(p.flit_left > 0, "Number of unexpected FLITs!");
+  p.flit_left--;
+  
   return flit;
 }
 
@@ -692,8 +713,6 @@ Flit PEMappedTaskExecution::tm_nextFlit_samepe(Packet & p) {
   Flit flit;
 
   flit = _tm_nextFlit(p);
-  TM_ASSERT(p.flit_left > 0, "Number of unexpected FLITs!");
-  p.flit_left--;
 
   return flit;
 }
@@ -701,12 +720,14 @@ Flit PEMappedTaskExecution::tm_nextFlit_samepe(Packet & p) {
 Flit PEMappedTaskExecution::tm_nextFlit(queue < Packet > & packet_queue)
 {
   Flit flit;
-  Packet p = packet_queue.front();
+  Packet & p = packet_queue.front();
 
   flit = _tm_nextFlit(p);
+
+  // PE Statistics - Flit Transmitted
+  pe->stats.statIncFlitsTx();
   
-  packet_queue.front().flit_left--;
-  if (packet_queue.front().flit_left == 0)
+  if (p.flit_left == 0)
       packet_queue.pop();
 
   return flit;
@@ -738,6 +759,8 @@ void PEMappedTaskExecution::processReceivedFlit(Flit flit) {
     if (flit.flit_type == FLIT_TYPE_HEAD) {
       t_st->_stat_headflitsent = flit.timestamp;
     } 
+    // PE Statistics - Flit Received
+    pe->stats.statIncFlitsRx();
   }
   else {
     t_src->getApp()->app_mappings[appCurrentMapping].stat_flist_to_samepe++;
