@@ -19,6 +19,8 @@
 
 #include <vector>
 #include <map>
+#include <iostream>
+using namespace std;
 
 #include "TaskMapping.h"
 #include "TaskMappingStats.h"
@@ -36,9 +38,10 @@ enum FSM_PARSER_DATA_TABLE_STATE
 class GraphParser
 {
   private:
-    map<int, int> taskTable;         // KEY: task id, task type id
-    map<int, int> execTimeTable;     // KEY: type id, execute time
-    map<int, int> commVolumTable; // KEY: arc id,  communication volum
+    map<int, int> taskTable;           // KEY: task id, task type id
+    map<pair<int, int>, int> arcTable; // KEY: <srcId, dstId>, type id
+    map<int, int> execTimeTable;       // KEY: type id, execute time
+    map<int, int> commVolumTable;      // KEY: arc id,  communication volum
 
     FSM_PARSER_DATA_TABLE_STATE state;
     string GetFirstString(string s);
@@ -46,11 +49,14 @@ class GraphParser
     void ParseArcBlock(int appId, string line);
     void ParseDataBlock(string line);
     int ExtractValue(string s);
+    void BuildTaskGraphMapping(int appId, int_cycles start, int_cycles end);
+    void GenerateRandomTaskMapping(int appId);
 
   public:
     GraphParser(void)
     {
         taskTable.clear();
+        arcTable.clear();
         execTimeTable.clear();
         commVolumTable.clear();
     }
@@ -61,6 +67,7 @@ class GraphParser
 
     /* Member functions to parser graph */
     bool Parse(const char *fname);
+    void PrintParsedTables(void);
 };
 
 #endif // __NOXIM_TGFF_GRPHY_PARSER__

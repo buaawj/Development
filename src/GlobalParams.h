@@ -173,6 +173,7 @@ struct GlobalParams {
     static string power_config_filename;
     static string taskmapping_filename;			// Added by LGGM
     static string taskmappinglog_filename;		// Added by LGGM
+    static bool tgffMappingEnabled;		        // Added by ACAG
     static int clock_period_ps;
     static int simulation_time;
     static int reset_time;

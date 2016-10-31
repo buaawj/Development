@@ -70,6 +70,7 @@ void loadConfiguration() {
     
     GlobalParams::default_hub_configuration = config["Hubs"]["defaults"].as<HubConfig>();
 
+    GlobalParams::tgffMappingEnabled = config["tgff"].as<bool>();
     for(YAML::const_iterator hubs_it = config["Hubs"].begin(); 
         hubs_it != config["Hubs"].end();
         ++hubs_it)
@@ -361,6 +362,8 @@ void parseCmdLine(int arg_num, char *arg_vet[])
 		GlobalParams::flit_size = atoi(arg_vet[++i]);
 	    else if (!strcmp(arg_vet[i], "-winoc")) 
 		GlobalParams::use_winoc = true;
+        else if (!strcmp(arg_vet[i], "-tgff"))    // Added by ACAG 
+		GlobalParams::tgffMappingEnabled = true;
 	    else if (!strcmp(arg_vet[i], "-wirxsleep")) 
 	    {
 		GlobalParams::use_powermanager = true;

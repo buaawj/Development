@@ -52,8 +52,8 @@
 #define TM_PE_SCHEDULER_TICK		100
 #define TM_PE_SCHEDULER_DELAY		10
 #define TM_PE_SCHEDULER_TXSTART		1
-#define TM_PE_SCHEDULER_MAPBEFORE	5
-#define TM_PE_SCHEDULER_MAPPINGGAP	10
+#define TM_PE_SCHEDULER_MAPBEFORE	10
+#define TM_PE_SCHEDULER_MAPPINGGAP	12
 #define TM_PE_SCHEDULER_TICK_MIN	20
 #define TM_PE_SCHEDULER_DELAY_MIN	1
 #define TM_PE_SCHEDULER_MAPBEFORE_MIN	0
@@ -525,7 +525,8 @@ private:
   
   int_cycles scheduler_tick, scheduler_delay, scheduler_tx_delay;
   int_cycles scheduler_mapbefore, scheduler_mappinggap;
-  
+  friend class GraphParser;
+
   void addApp(int appid, int_cycles min_restart);
   void addTask(int appid, int taskid);
   void addPBlockToTask(int appid, int taskid, int_cycles exectime, int staskid, int payload); 
@@ -539,7 +540,7 @@ private:
   void showAppInfo(tm_app *app);
   void showTasksPerAppInfo(tm_task *t);
   void showMappingsPerAppInfo(tm_app *app);
-  void showAllAppsAndTasksInfo(void);
+  //void showAllAppsAndTasksInfo(void);
   void showMappedTasksPerPEInfo(tm_pe *pe);
   void showAllMappedTasksOnPEsInfo(void);
   void showAppStatistics(void);
@@ -547,8 +548,9 @@ private:
   void showPESummaryStatistics(void);
   
 public:
-  ofstream taskmappinglog_file;
-  
+    ofstream taskmappinglog_file;
+  void showAllAppsAndTasksInfo(void);
+
   TaskMapping(string objectName) {
     tm_apps.clear();
     tm_pes.clear();

@@ -32,7 +32,9 @@ string GlobalParams::traffic_table_filename;
 string GlobalParams::config_filename;
 string GlobalParams::power_config_filename;
 string GlobalParams::taskmapping_filename;		// Added by LGGM
-string GlobalParams::taskmappinglog_filename;		// Added by LGGM
+string GlobalParams::taskmappinglog_filename;	// Added by LGGM
+bool GlobalParams::tgffMappingEnabled;		    // Added by ACAG
+
 int GlobalParams::clock_period_ps;
 int GlobalParams::simulation_time;
 int GlobalParams::reset_time;

@@ -14,6 +14,7 @@
 #include "DataStructs.h"
 #include "GlobalParams.h"
 #include "taskMapping/TaskMapping.h"		// Added by LGGM
+#include "taskMapping/GraphParser.h"		// Added by ACAG
 
 #include <csignal>
 
@@ -68,8 +69,21 @@ int sc_main(int arg_num, char *arg_vet[])
     
     if (GlobalParams::traffic_distribution == TRAFFIC_TASKMAPPING) {
       tmInstance = new TaskMapping("TaskMapping");
-      cout << "Loading task mapping configuration from file \"" << GlobalParams::taskmapping_filename << "\"" << endl;
-      if (!tmInstance->createTaskGraphsFromFile(GlobalParams::taskmapping_filename.c_str())) {
+      
+        bool success = false;
+        if (GlobalParams::tgffMappingEnabled)
+        {
+            GraphParser parser;
+            cout << "Loading TGFF graph file \"" << GlobalParams::taskmapping_filename << "\"" << endl;
+            success = parser.Parse(GlobalParams::taskmapping_filename.c_str());
+        }
+        else
+        {
+            cout << "Loading task mapping configuration from file \"" << GlobalParams::taskmapping_filename << "\"" << endl;
+            success = tmInstance->createTaskGraphsFromFile(GlobalParams::taskmapping_filename.c_str());
+        }
+
+      if (!success) {
 	cout << "Failed to load the task mapping configuration." << endl;
 	exit(0);
 	TM_ASSERT(false, "Failed to load the task mapping configuration.");
