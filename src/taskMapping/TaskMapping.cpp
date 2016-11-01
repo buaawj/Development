@@ -531,12 +531,12 @@ bool TaskMapping::checkConsistency(void) {
       t = &it_task->second;
 
       // Check if the task exists in all the mappings
-      for (unsigned int imap=0; imap < app->app_mappings.size(); imap++) {    
-	if ( app->app_mappings[imap].task_on_pe.count(t->getId()) == 0 ) {
-	  cout << "The task" << t->getId() << " of app" << app->getId() << " does not exist in mapping" << imap << "." << endl;
-	  return false;
-	}
-      }
+  //     for (unsigned int imap=0; imap < app->app_mappings.size(); imap++) {    
+	// if ( app->app_mappings[imap].task_on_pe.count(t->getId()) == 0 ) {
+	//   cout << "The task" << t->getId() << " of app" << app->getId() << " does not exist in mapping" << imap << "." << endl;
+	//   return false;
+	// }
+  //     }
 
       // Check if the task has processing blocks
       if (t->pblocks_tasks.size() == 0) {
@@ -607,10 +607,11 @@ bool TaskMapping::checkConsistency(void) {
 	  }
 	}
       }
-      if (execution_time_len == 0) {
-	cout << "Task " << t->getId() << " of app " << app->getId() << " has an execution time of 0 cycles, which is not allowed!" << endl;
-	return false;
-      }
+  // Comment this out becuase we will have virtual leaf node which has 0 execution time.
+  //     if (execution_time_len == 0) {
+	// cout << "Task " << t->getId() << " of app " << app->getId() << " has an execution time of 0 cycles, which is not allowed!" << endl;
+	// return false;
+  //     }
     }
   }
 

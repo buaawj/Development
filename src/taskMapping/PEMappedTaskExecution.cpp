@@ -153,7 +153,11 @@ bool PEMappedTaskExecution::preparePayloadForTransmission(void) {
   double ccycle = sc_time_stamp().to_double() / GlobalParams::clock_period_ps;
 
   if (running_task->pblocks_tasks[running_task->getCurrentPb()].getSTaskId() != TM_NOT_TASK) {
-    TM_ASSERT(running_task->pblocks_tasks[running_task->getCurrentPb()].getPayLoad() > 0, "PBlock with subsequent task and payload equal to zero!");
+    //TM_ASSERT(running_task->pblocks_tasks[running_task->getCurrentPb()].getPayLoad() > 0, "PBlock with subsequent task and payload equal to zero!");
+    if(running_task->pblocks_tasks[running_task->getCurrentPb()].getPayLoad() == 0)
+    {
+      return false;
+    }
     tx_b.setSrcTask(running_task);
     tx_b.setDstTask(tmInstance->getTask(running_task->getApp()->getId(), running_task->pblocks_tasks[running_task->getCurrentPb()].getSTaskId()));
     tx_b.setPbId(running_task->getCurrentPb());

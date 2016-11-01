@@ -18,7 +18,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
-#include "GraphParser.h"
+#include "TgffMapping.h"
 
 using namespace std;
 extern TaskMapping *tmInstance;
@@ -222,6 +222,54 @@ void GraphParser::BuildTaskGraphMapping(int appId, int_cycles start, int_cycles 
         }
     }
 
+    /* Merge multiple leaf nodes into one leaf   */
+    int n = taskTable.size();
+    vector<int> indegree(n, 0);
+    vector<int> outdegree(n, 0);
+    for (map<pair<int, int>, int>::iterator it = arcTable.begin(); it != arcTable.end(); ++it)
+    {
+        indegree[it->first.second]++;
+        outdegree[it->first.first]++;
+
+    }
+    int numRoot = 0;
+    for(size_t i=0; i<indegree.size(); ++i)
+    {
+        if(indegree[i]==0)
+        {
+            ++numRoot;
+            cout<<endl<<i<<" ";
+        }
+    }
+
+    cout<<endl;
+
+    TM_ASSERT(numRoot==1, "Error: Multiple Root Nodes");
+    vector<int> leafs;
+    for(size_t i=0; i<outdegree.size(); ++i)
+    {
+        if(outdegree[i]==0)
+            leafs.push_back(i);
+    }
+
+    if(leafs.size() > 1)
+    {
+        int newTask = n;
+        // Add a new virtual leaf node
+        tmInstance->addTask(appId, newTask);
+        tmInstance->addPBlockToTask(appId, newTask, 0, TM_NOT_TASK, 0);
+
+        for(size_t i = 0; i < leafs.size(); ++i)
+        {
+            // Redirect leaf node to pointing to new virtual leaf node
+            tm_task *srcTask = &tmInstance->tm_apps[appId].task_graph[leafs[i]];
+            // Overriding PBs
+            tm_pblock_task &pb = srcTask->pblocks_tasks[0];
+            pb.setPayLoad(0);
+            pb.setSTaskId(newTask);
+        }
+    }
+
     //Settle Root and Leaf Tasks
     tmInstance->settleRootAndLeafTasks();
     // Settle Antecedent Tasks
@@ -301,16 +349,16 @@ void GraphParser::PrintParsedTables(void)
  ***************************************************************************************/
 void GraphParser::GenerateRandomTaskMapping(int appId)
 {
-    //srand(time(NULL));
+    srand(time(NULL));
     int dimension = GlobalParams::mesh_dim_x * GlobalParams::mesh_dim_y;
     //cout<<"dimension" << dimension<<endl;
-    map<int, tm_task> &task_graph = tmInstance->tm_apps[appId].task_graph;
-    for (map<int, tm_task>::iterator it = task_graph.begin(); it != task_graph.end(); ++it)
+    int taskNum = taskTable.size();
+
+    for (int task=0; task<taskNum; ++task)
     {
-        TM_ASSERT(tmInstance != NULL, "Error TaskMapping class not Instantiated");
         int peid = rand() % (dimension);
-        cout<<endl<<"Task: "<<it->first<<"peid "<<peid<<endl;
-        tmInstance->addTaskToMap(appId, it->first, peid);
+        //cout<<endl<<"Task: "<<task<<"peid "<<peid<<endl;
+        tmInstance->addTaskToMap(appId, task, peid);
     }
 }
 

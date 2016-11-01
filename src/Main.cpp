@@ -14,7 +14,7 @@
 #include "DataStructs.h"
 #include "GlobalParams.h"
 #include "taskMapping/TaskMapping.h"		// Added by LGGM
-#include "taskMapping/GraphParser.h"		// Added by ACAG
+#include "taskMapping/TgffMapping.h"		// Added by ACAG
 
 #include <csignal>
 

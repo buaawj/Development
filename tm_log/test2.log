@@ -1,33 +1,37 @@
-Task Mapping Simulation File created on: Thu Oct 20 23:03:28 2016
+Task Mapping Simulation File created on: Mon Oct 24 22:23:24 2016
 
 ************************
 TaskMapping File Reading
 ************************
 
-App:   1, 10000
-Task:  1, 150, 2, 25, 10, 3, 10
-Task:  2, 160, 4, 15
-Task:  3, 140, 4, 10
-Task:  4, 100, -1, 0
-MAP:   5100, 7000, 1, 0, 2, 15, 3, 12, 4, 8
+App:   1, 20000
+Task:  1, 150, 2, 25, 0, 3, 10, 0, 4, 15
+Task:  2, 160, 5, 15
+Task:  3, 140, 5, 10
+Task:  4, 100, 5, 15
+Task:  5, 100, -1, 0
+MAP:   5100, 7000, 1, 0, 2, 15, 3, 12, 4, 8, 5, 9
 SIM:  100, 10, 10, 12
 
 **************************
 Task Mapping Configuration
 **************************
 
-app: 1, root_task: 1, min_restart: 10000, leaf_task: 4
-  task: 1, pb0 ( et: 150, st: 2, pl: 25 ), pb1 ( et: 10, st: 3, pl: 10 )
-  task: 2, pb0 ( et: 160, st: 4, pl: 15 ), ant: 1
-  task: 3, pb0 ( et: 140, st: 4, pl: 10 ), ant: 1
-  task: 4, pb0 ( et: 100, st: -1, pl: 0 ), ant: 2, 3
+app: 1, root_task: 1, min_restart: 20000, leaf_task: 5
+  task: 1, pb0 ( et: 150, st: 2, pl: 25 ), pb1 ( et: 0, st: 3, pl: 10 ), pb2 ( et: 0, st: 4, pl: 15 )
+  task: 2, pb0 ( et: 160, st: 5, pl: 15 ), ant: 1
+  task: 3, pb0 ( et: 140, st: 5, pl: 10 ), ant: 1
+  task: 4, pb0 ( et: 100, st: 5, pl: 15 ), ant: 1
+  task: 5, pb0 ( et: 100, st: -1, pl: 0 ), ant: 2, 3, 4
 
-  mapping: 0, start: 5100, stop: 7000, task1(pe0), task2(pe15), task3(pe12), task4(pe8)
+  mapping: 0, start: 5100, stop: 7000, task1(pe0), task2(pe15), task3(pe12), task4(pe8), task5(pe9)
 
 pe: 0
   start-stop: 5100-7000, app1,task1
 pe: 8
   start-stop: 5100-7000, app1,task4
+pe: 9
+  start-stop: 5100-7000, app1,task5
 pe: 12
   start-stop: 5100-7000, app1,task3
 pe: 15
@@ -41,6 +45,8 @@ TaskMapping Simulation Execution
 (02) @005090 pe000,app01,tsk01 -> in sleeping state.
 (00) @005090 pe008,app01,tsk04 -> being mapped to pe8.
 (01) @005090 pe008,app01,tsk04 -> in waiting rx state.
+(00) @005090 pe009,app01,tsk05 -> being mapped to pe9.
+(01) @005090 pe009,app01,tsk05 -> in waiting rx state.
 (00) @005090 pe012,app01,tsk03 -> being mapped to pe12.
 (01) @005090 pe012,app01,tsk03 -> in waiting rx state.
 (00) @005090 pe015,app01,tsk02 -> being mapped to pe15.
@@ -52,12 +58,16 @@ TaskMapping Simulation Execution
 (11) @005260 pe000,app01,tsk01 -> pb0 completes its processing.
 (13) @005260 pe000,app01,tsk01 -> payload of pb0 is ready to be transferred.
 (14) @005260 pe000,app01,tsk01 -> continues execution with pb1.
+(11) @005260 pe000,app01,tsk01 -> pb1 completes its processing.
+(13) @005260 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
+(14) @005260 pe000,app01,tsk01 -> continues execution with pb2.
+(11) @005260 pe000,app01,tsk01 -> pb2 completes its processing.
+(13) @005260 pe000,app01,tsk01 -> payload of pb2 is ready to be transferred.
+(12) @005260 pe000,app01,tsk01 -> completes its pbs and releases the pe.
+(02) @005260 pe000,app01,tsk01 -> in sleeping state.
 (16) @005261 pe000,app01,tsk01 -> payload of pb0 being transferred to WNoC.
-(11) @005270 pe000,app01,tsk01 -> pb1 completes its processing.
-(13) @005270 pe000,app01,tsk01 -> payload of pb1 is ready to be transferred.
-(12) @005270 pe000,app01,tsk01 -> completes its pbs and releases the pe.
-(02) @005270 pe000,app01,tsk01 -> in sleeping state.
-(16) @005271 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(16) @005261 pe000,app01,tsk01 -> payload of pb1 being transferred to WNoC.
+(16) @005261 pe000,app01,tsk01 -> payload of pb2 being transferred to WNoC.
 (20) @005324 pe015,app01,tsk02 -> receives payload of pb0 (task1) from WNoC.
 (08) @005324 pe015,app01,tsk02 -> receives all antecedent payloads.
 (03) @005324 pe015,app01,tsk02 -> in ready state.
@@ -74,6 +84,19 @@ TaskMapping Simulation Execution
 (31) @005338 app01,tsk01->tsk03,end2end_hopcount -> flits=10,min=3,avg=3,max=3
 (06) @005348 pe012,app01,tsk03 -> in running state.
 (09) @005348 pe012,app01,tsk03 -> starts its execution with pb0.
+(20) @005366 pe008,app01,tsk04 -> receives payload of pb2 (task1) from WNoC.
+(08) @005366 pe008,app01,tsk04 -> receives all antecedent payloads.
+(03) @005366 pe008,app01,tsk04 -> in ready state.
+(05) @005366 pe008,app01,tsk04 -> in context switching state.
+(30) @005366 app01,tsk01->tsk04,end2end_latency -> flits=15,min=7,avg=7,max=7
+(31) @005366 app01,tsk01->tsk04,end2end_hopcount -> flits=15,min=2,avg=2,max=2
+(06) @005376 pe008,app01,tsk04 -> in running state.
+(09) @005376 pe008,app01,tsk04 -> starts its execution with pb0.
+(11) @005476 pe008,app01,tsk04 -> pb0 completes its processing.
+(13) @005476 pe008,app01,tsk04 -> payload of pb0 is ready to be transferred.
+(12) @005476 pe008,app01,tsk04 -> completes its pbs and releases the pe.
+(01) @005476 pe008,app01,tsk04 -> in waiting rx state.
+(16) @005477 pe008,app01,tsk04 -> payload of pb0 being transferred to WNoC.
 (11) @005488 pe012,app01,tsk03 -> pb0 completes its processing.
 (13) @005488 pe012,app01,tsk03 -> payload of pb0 is ready to be transferred.
 (12) @005488 pe012,app01,tsk03 -> completes its pbs and releases the pe.
@@ -84,25 +107,30 @@ TaskMapping Simulation Execution
 (12) @005494 pe015,app01,tsk02 -> completes its pbs and releases the pe.
 (01) @005494 pe015,app01,tsk02 -> in waiting rx state.
 (16) @005495 pe015,app01,tsk02 -> payload of pb0 being transferred to WNoC.
-(20) @005512 pe008,app01,tsk04 -> receives payload of pb0 (task3) from WNoC.
-(30) @005512 app01,tsk03->tsk04,end2end_latency -> flits=10,min=5,avg=5,max=5
-(31) @005512 app01,tsk03->tsk04,end2end_hopcount -> flits=10,min=1,avg=1,max=1
-(20) @005542 pe008,app01,tsk04 -> receives payload of pb0 (task2) from WNoC.
-(08) @005542 pe008,app01,tsk04 -> receives all antecedent payloads.
-(03) @005542 pe008,app01,tsk04 -> in ready state.
-(05) @005542 pe008,app01,tsk04 -> in context switching state.
-(30) @005542 app01,tsk02->tsk04,end2end_latency -> flits=15,min=19,avg=19,max=19
-(31) @005542 app01,tsk02->tsk04,end2end_hopcount -> flits=15,min=4,avg=4,max=4
-(06) @005552 pe008,app01,tsk04 -> in running state.
-(09) @005552 pe008,app01,tsk04 -> starts its execution with pb0.
-(11) @005652 pe008,app01,tsk04 -> pb0 completes its processing.
-(32) @005652 app01,exec_finished -> exectime=542
-(12) @005652 pe008,app01,tsk04 -> completes its pbs and releases the pe.
-(01) @005652 pe008,app01,tsk04 -> in waiting rx state.
+(20) @005510 pe009,app01,tsk05 -> receives payload of pb0 (task4) from WNoC.
+(30) @005510 app01,tsk04->tsk05,end2end_latency -> flits=15,min=5,avg=5,max=5
+(31) @005510 app01,tsk04->tsk05,end2end_hopcount -> flits=15,min=1,avg=1,max=1
+(20) @005530 pe009,app01,tsk05 -> receives payload of pb0 (task3) from WNoC.
+(30) @005530 app01,tsk03->tsk05,end2end_latency -> flits=10,min=23,avg=23,max=23
+(31) @005530 app01,tsk03->tsk05,end2end_hopcount -> flits=10,min=2,avg=2,max=2
+(20) @005560 pe009,app01,tsk05 -> receives payload of pb0 (task2) from WNoC.
+(08) @005560 pe009,app01,tsk05 -> receives all antecedent payloads.
+(03) @005560 pe009,app01,tsk05 -> in ready state.
+(05) @005560 pe009,app01,tsk05 -> in context switching state.
+(30) @005560 app01,tsk02->tsk05,end2end_latency -> flits=15,min=37,avg=37,max=37
+(31) @005560 app01,tsk02->tsk05,end2end_hopcount -> flits=15,min=3,avg=3,max=3
+(06) @005570 pe009,app01,tsk05 -> in running state.
+(09) @005570 pe009,app01,tsk05 -> starts its execution with pb0.
+(11) @005670 pe009,app01,tsk05 -> pb0 completes its processing.
+(32) @005670 app01,exec_finished -> exectime=560
+(12) @005670 pe009,app01,tsk05 -> completes its pbs and releases the pe.
+(01) @005670 pe009,app01,tsk05 -> in waiting rx state.
 (07) @007000 pe000,app01,tsk01 -> stops and is unmapped at @7000 (expected at @7000).
-(33) @007000 pe000,acum_cycles_performed -> contextswitching=10,taskexecution=160,pe_idle=1740
+(33) @007000 pe000,acum_cycles_performed -> contextswitching=10,taskexecution=150,pe_idle=1750
 (07) @007000 pe008,app01,tsk04 -> stops and is unmapped at @7000 (root stopped at @7000).
 (33) @007000 pe008,acum_cycles_performed -> contextswitching=10,taskexecution=100,pe_idle=1800
+(07) @007000 pe009,app01,tsk05 -> stops and is unmapped at @7000 (root stopped at @7000).
+(33) @007000 pe009,acum_cycles_performed -> contextswitching=10,taskexecution=100,pe_idle=1800
 (07) @007000 pe012,app01,tsk03 -> stops and is unmapped at @7000 (root stopped at @7000).
 (33) @007000 pe012,acum_cycles_performed -> contextswitching=10,taskexecution=140,pe_idle=1760
 (07) @007000 pe015,app01,tsk02 -> stops and is unmapped at @7000 (root stopped at @7000).
@@ -113,39 +141,59 @@ Task Mapping Statistics
 ***********************
 
 *** App1 - Mapping0 ***
-Execution Time (CPU + Comm.) (executions,min,avg,max)=1,542,542,542 (cycles)
+Execution Time (CPU + Comm.) (executions,min,avg,max)=1,560,560,560 (cycles)
 Communication Time per Branch (payloads,min,avg,max)
-  br0: 1-2=1,63,63,63 -> 2-4=1,47,47,47 -->> T(min,avg,max)=110,110,110 (cycles)
-  br1: 1-3=1,27,27,27 -> 3-4=1,23,23,23 -->> T(min,avg,max)=50,50,50 (cycles)
-Communication Time Critical Branch (min,avg,max)=110,110,110 (cycles)
+  br0: 1-2=1,63,63,63 -> 2-5=1,65,65,65 -->> T(min,avg,max)=128,128,128 (cycles)
+  br1: 1-3=1,27,27,27 -> 3-5=1,41,41,41 -->> T(min,avg,max)=68,68,68 (cycles)
+  br2: 1-4=1,35,35,35 -> 4-5=1,33,33,33 -->> T(min,avg,max)=68,68,68 (cycles)
+Communication Time Critical Branch (min,avg,max)=128,128,128 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=6,0,20,70 (cycles)
 FLITs Transmitted to Same PE=0
 FLITs Ignored due to Application Unmapping=0
-FLIT End2End Latency (flits,min,avg,max)=60,5,13.3333,19 (cycles)
-FLIT End2End HopCount (flits,min,avg,max)=60,1,4.16667,6
-FLIT Communication Cost (flits x average hopcount)=250
+FLIT End2End Latency (flits,min,avg,max)=90,5,15.8889,37 (cycles)
+FLIT End2End HopCount (flits,min,avg,max)=90,1,3.22222,6
+FLIT Communication Cost (flits x average hopcount)=290
 
 *** App overall ***
-Execution Time (CPU + Comm.) (executions,min,avg,max)=1,542,542,542 (cycles)
-Communication Time Critical Branch (min,avg,max)=110,110,110 (cycles)
+Execution Time (CPU + Comm.) (executions,min,avg,max)=1,560,560,560 (cycles)
+Communication Time Critical Branch (min,avg,max)=128,128,128 (cycles)
+Transmission Start Delay (head_flits_tx,min,avg,max)=6,0,20,70 (cycles)
 FLITs Transmitted to Same PE=0
 FLITs Ignored due to Application Unmapping=0
-FLIT End2End Latency (flits,min,avg,max)=60,5,13.3333,19 (cycles)
-FLIT End2End HopCount (flits,min,avg,max)=60,1,4.16667,6
-FLIT Communication Cost (flits x average hopcount)=250
+FLIT End2End Latency (flits,min,avg,max)=90,5,15.8889,37 (cycles)
+FLIT End2End HopCount (flits,min,avg,max)=90,1,3.22222,6
+FLIT Communication Cost (flits x average hopcount)=290
 
 
 *** pe: 0 ***
+Total FLITs Transmitted=50
+Total FLITs Received=0
 Total Context Switching Cycles=10
-Total Task Execution Cycles=160
-Total PE Idle Cycles=1740
+Total Task Execution Cycles=150
+Total PE Idle Cycles=1750
 Total Mapped Task Cycles=1910
 Total Mapped Task Cycles (expected)=1910
-Total Energy (J)=7.63693e-05
+Total Energy (J)=7.19015e-05
       Context Switching Energy (J)=4.47e-06
-      Task Execution Energy (J)=7.152e-05
-      Idle Energy (J)=3.7932e-07
+      Task Execution Energy (J)=6.705e-05
+      Idle Energy (J)=3.815e-07
 
 *** pe: 8 ***
+Total FLITs Transmitted=15
+Total FLITs Received=15
+Total Context Switching Cycles=10
+Total Task Execution Cycles=100
+Total PE Idle Cycles=1800
+Total Mapped Task Cycles=1910
+Total Mapped Task Cycles (expected)=1910
+Total Energy (J)=4.95624e-05
+      Context Switching Energy (J)=4.47e-06
+      Task Execution Energy (J)=4.47e-05
+      Idle Energy (J)=3.924e-07
+
+*** pe: 9 ***
+Total FLITs Transmitted=0
+Total FLITs Received=40
 Total Context Switching Cycles=10
 Total Task Execution Cycles=100
 Total PE Idle Cycles=1800
@@ -157,6 +205,8 @@ Total Energy (J)=4.95624e-05
       Idle Energy (J)=3.924e-07
 
 *** pe: 12 ***
+Total FLITs Transmitted=10
+Total FLITs Received=10
 Total Context Switching Cycles=10
 Total Task Execution Cycles=140
 Total PE Idle Cycles=1760
@@ -168,6 +218,8 @@ Total Energy (J)=6.74337e-05
       Idle Energy (J)=3.8368e-07
 
 *** pe: 15 ***
+Total FLITs Transmitted=15
+Total FLITs Received=25
 Total Context Switching Cycles=10
 Total Task Execution Cycles=160
 Total PE Idle Cycles=1740
@@ -179,29 +231,31 @@ Total Energy (J)=7.63693e-05
       Idle Energy (J)=3.7932e-07
 
 *** pe overall ***
-Total Context Switching Cycles=40
-Total Task Execution Cycles=560
-Total PE Idle Cycles=7040
-Total Mapped Task Cycles=7640
-Total Energy (J)=0.000269735
-      Context Switching Energy (J)=1.788e-05
-      Task Execution Energy (J)=0.00025032
-      Idle Energy (J)=1.53472e-06
+Total FLITs Transmitted=90
+Total FLITs Received=90
+Total Context Switching Cycles=50
+Total Task Execution Cycles=650
+Total PE Idle Cycles=8850
+Total Mapped Task Cycles=9550
+Total Energy (J)=0.000314829
+      Context Switching Energy (J)=2.235e-05
+      Task Execution Energy (J)=0.00029055
+      Idle Energy (J)=1.9293e-06
 
 
 ***************
 WNoC Statistics
 ***************
 
-% Total received packets: 4
-% Total received flits: 60
-% Received/Ideal flits Ratio: 4.16667e-05
+% Total received packets: 6
+% Total received flits: 90
+% Received/Ideal flits Ratio: 6.25e-05
 % Average wireless utilization: 0
-% Global average delay (cycles): 11
-% Max delay (cycles): 18
-% Network throughput (flits/cycle): 0.00666667
-% Average IP throughput (flits/cycle/IP): 0.000416667
-% Total energy (J): 3.47986e-06
-% 	Dynamic energy (J): 1.87891e-09
+% Global average delay (cycles): 15
+% Max delay (cycles): 36
+% Network throughput (flits/cycle): 0.01
+% Average IP throughput (flits/cycle/IP): 0.000625
+% Total energy (J): 3.48028e-06
+% 	Dynamic energy (J): 2.3044e-09
 % 	Static energy (J): 3.47798e-06
 

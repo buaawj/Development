@@ -112,15 +112,18 @@ void ProcessingElement::peTxProcess() {
         }
         _tx_packet_queue.pop();
       }
-    } 
+    }
 
-    if (ack_tx.read() == current_level_tx) {
-      if (!packet_queue.empty()) {
-	Flit flit = peMapTaskExec->tm_nextFlit(packet_queue);	// Generate a new flit
-	flit_tx->write(flit);					// Send the generated flit
-	current_level_tx = 1 - current_level_tx;		// Negate the old value for Alternating Bit Protocol (ABP)
-	req_tx.write(current_level_tx);
-      }
+    if (ack_tx.read() == current_level_tx)
+    {
+        if (!packet_queue.empty() && packet_queue.front().size > 0)
+        {
+
+            Flit flit = peMapTaskExec->tm_nextFlit(packet_queue); // Generate a new flit
+            flit_tx->write(flit);                                 // Send the generated flit
+            current_level_tx = 1 - current_level_tx;              // Negate the old value for Alternating Bit Protocol (ABP)
+            req_tx.write(current_level_tx);
+        }
     }
   }
 }

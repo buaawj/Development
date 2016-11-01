@@ -14,8 +14,8 @@
  * For the license applied to these sources refer to file ../doc/LICENSE.txt
  */
 
-#ifndef __NOXIM_TGFF_GRPHY_PARSER__
-#define __NOXIM_TGFF_GRPHY_PARSER__
+#ifndef __NOXIM_TGFF_MAPPING__
+#define __NOXIM_TGFF_MAPPING__
 
 #include <vector>
 #include <map>
@@ -70,4 +70,4 @@ class GraphParser
     void PrintParsedTables(void);
 };
 
-#endif // __NOXIM_TGFF_GRPHY_PARSER__
+#endif // __NOXIM_TGFF_MAPPING__
